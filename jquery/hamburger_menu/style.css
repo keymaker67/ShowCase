@@ -1,0 +1,84 @@
+* {
+    padding: 0;
+    margin: 0;
+    background-origin: padding-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    background-color: #050f2c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ham-toggler {
+    background-color: transparent;
+    position: relative;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.ham-toggler .ham-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ham-icon span {
+    display: block;
+    position: relative;
+    width: 40px;
+    height: 3px;
+    background-color: #ffffff;
+    transition: background-color 0.35 0s ease-out;
+}
+
+.ham-icon span::before,  
+.ham-icon span::after  {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 3px;
+    background-color: #ffffff;
+    transition: top 0.2s 0.4s ease-out, left 0.2s 0.2s ease-out, 
+    right 0.2s 0.2s ease-out, width 0.2s 0.2s ease-out, transform 0.2s ease-out;
+} 
+
+.ham-icon span::before {
+    top: 12px;
+    left: 20px;
+}
+
+.ham-icon span::after {
+    top: -12px;
+    right: 20px;
+}
+
+.ham-toggler.active .ham-icon span{
+    background-color: transparent;
+}
+
+.ham-toggler.active .ham-icon span::before,
+.ham-toggler.active .ham-icon span::after  {
+    top: 0;
+    width: 40px;
+    transition: top 0.2s ease-out, left 0.2s 0.2s ease-out, right 0.2s 0.2s ease-out,
+    width 0.2s 0.2s ease-out, transform 0.2s 0.4s ease-out;
+}
+
+.ham-toggler.active .ham-icon span::before {
+    left: 0;
+    transform: rotate3d(0, 0, 1, 45deg);
+}
+
+.ham-toggler.active .ham-icon span::after {
+    right: 0;
+    transform: rotate3d(0, 0, 1, -45deg);
+}
+
