@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+   margin: 0;
+   padding: 0;
+   min-height: 100vh;
+   background-color: #00a4e4;
+}
+
+.menu-wrapper {
+    position: relative;
+}
+
+.ham-menu {
+    width: 40px;
+    height: 40px;
+    padding: 10px 0;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.ham-menu .menu-burger {
+    width: 30px;
+    position: relative;
+    
+}
+
+.ham-menu .menu-burger span {
+    width: 100%;
+    height: 2px;
+    background-color: #ffffff;
+    position: absolute;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+}   
+
+.ham-menu span:nth-child(1) {
+    top: -8px;
+    width: 17px;
+}
+
+.ham-menu span:nth-child(3) {
+    top: 8px;
+    width: 22px;
+}
+
+.ham-menu.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.ham-menu.open span:nth-child(1) {
+    top: 0;
+    width: 30px;
+    transform: rotate(45deg);
+}
+
+.ham-menu.open span:nth-child(3) {
+    top: 0;
+    width: 30px;
+    transform: rotate(-45deg);
+}
+
+.menu {
+    display: none;
+    width: 150px;
+    padding: 0 20px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 90px;
+    left: 50px;
+    box-shadow: 0 5px 20px rgba(69, 67, 96, 0.1);
+}
+
+.menu li {
+    padding-top: 15px;
+    list-style: none;
+}
+
+.menu li:first-child {
+    padding-top: 20px;
+}
+
+.menu li:last-child {
+    padding-bottom: 20px;
+}
+
+.menu li a {
+    display: block;
+    position: relative;
+    color: #35404e;
+    padding: 2px 0;
+    text-align: left;
+    text-decoration: none;
+    text-transform: capitalize;
+    transform: all 0.3s ease-in-out;
+}
+
+.menu li a.active {
+    color: #f21e4e;
+}
+
+.menu li a.active::after {
+    content: "";
+    width: 2px;
+    height: 100%;
+    background-color: #f21e4e;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: -20px;
+}

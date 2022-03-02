@@ -1,0 +1,277 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    position: absolute;
+    width: 100%;
+    padding: 50px 0;
+    z-index: 999;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar ul {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.navbar ul li {
+    list-style: none;
+}
+
+.navbar ul li a {
+    display: block;
+    margin: 0 5px;
+    padding: 15px;
+    color: #989d9c;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    opacity: 0;
+    animation: fadeInUp 0.5s linear forwards;
+    animation-delay: calc(0.3s * var(--index));
+}
+
+.navbar ul li a:not(.btn):hover {
+    color: #525555;
+}
+
+.navbar ul li .btn {
+    padding: 15px 20px;
+    color: #ffffff;
+    background: linear-gradient(to right, #4582ff 0%, #e700d1 50%, #4582ff 100%);
+    background-size: 200%;
+    border-radius: 50px;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11);
+}
+
+.navbar ul li .btn:hover {
+    background-position: right center;
+}
+
+.toggle-btn {
+    display: none;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    background-color: #f6962c;
+    float: right;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.toggle-btn .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.toggle-btn .bar::before, 
+.toggle-btn .bar::after {
+    content: "";
+    width: 100%;
+    height: 3px;
+    background-color: #ffffff;
+    position: absolute;
+} 
+
+.toggle-btn .bar::before {
+    top: -8px;
+}
+
+.toggle-btn .bar::after{
+    top: 8px;
+}
+
+.toggle-btn.active .bar {
+    background-color: transparent;
+}
+
+.toggle-btn.active .bar::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.toggle-btn.active .bar::after {
+    top: 0;
+    transform: rotate(-45deg);
+}
+
+.hero-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px;
+    background-image: url(./o1WgryC.png);
+    background-size: cover ;
+    background-position: left;
+    background-repeat: no-repeat;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeIn 0.5s linear forwards;
+}
+
+.hero-container .mosque {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: all 0.3s;
+}
+
+.hero-content {
+    position: relative;
+    widows: 100%;
+    max-width: 550px;
+    padding-top: 40px;
+}
+
+.hero-content h2 {
+    margin-bottom: 30px;
+    color: #282827;
+    font-size: 80px;
+    font-weight:  900;
+    text-transform: uppercase;
+    line-height: 80px;
+    opacity: 0;
+    animation: fadeInUp 0.5s linear 2s forwards;
+}
+
+.hero-content p {
+    margin-bottom: 30px;
+    color: #252525;
+    font-size: 18px;
+    font-weight: 400;
+    opacity: 0;
+    animation: fadeInUp 0.5s linear 2.5s forwards;
+}
+
+.hero-content .btn {
+    display: inline-block;
+    padding: 15px 40px;
+    color: #ffffff;
+    background: linear-gradient(to right, #f66333 0%, #f6eb1f 50%, #f66333 100%);
+    border-radius: 50px;
+    background-size: 200%;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: capitalize;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11);
+    transition: all 0.3s;
+    opacity: 0;
+    animation: fadeInUp 0.5s linear 3s forwards;
+}
+
+.hero-content .btn:hover {
+    background-position: right center;
+}
+
+@media(max-width: 992px) {
+    .container {
+        max-width: 900px;
+    }
+    .navbar .container ul {
+        display: none;
+    }
+    .toggle-btn {
+        display: block ;
+    }
+    
+    .navbar ul.active {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 99;
+    }
+
+    .navbar ul li a {
+        margin: 10px;
+    }
+
+    .hero-container {
+        padding: 20px;
+        background-image: none;
+         background-color: #000000;
+    }
+
+    .mosque {
+        opacity: 0.6;
+    }
+
+    .hero-content h2{
+        color: #fdfdfd;
+        font-size: 60px;
+    }
+
+    .hero-content p{
+        color: #f1f1f1;
+    }
+}
+
+@media(max-width: 550px) {
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero-content h2 {
+        font-size: 50px;
+        line-height: 50px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .hero-content .btn {
+        font-size: 16px;
+    }
+}
+
+@keyframes fadeIn{
+    from{opacity: 0;}
+    to{opacity: 100%;}
+}
+
+@keyframes fadeInUp {
+    from{opacity: 0;
+    transform: translateY(10px);}
+    to{opacity: 100%;
+    transform: translateY(0px);}
+}
+
