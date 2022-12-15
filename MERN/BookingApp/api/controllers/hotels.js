@@ -2,8 +2,13 @@ import { StatusCodes } from "http-status-codes";
 import Hotel from "../models/Hotel.js";
 
 export const getAllHotels = async (req, res, next) => {
+  const { min, max, ...others } = req.query;
   try {
-    const hotels = await Hotel.find();
+    const hotels = await Hotel.find({
+      ...others,
+      cheapestPrice: { $gt: min || 1, $lt: max || 999 },
+    })
+    .limit(req.query.limit);
     res.status(StatusCodes.OK).json(hotels);
   } catch (error) {
     next(error);
@@ -16,6 +21,24 @@ export const countByCity = async (req, res, next) => {
     const list = await Promise.all(
       cities.map((city) => {
         return Hotel.countDocuments({ city: city });
+      })
+    );
+    res.status(StatusCodes.OK).json(list);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const countByType = async (req, res, next) => {
+  const types = ["hotel", "apartment", "resort", "villa", "cabin"];
+  try {
+    const list = await Promise.all(
+      types.map(async (type) => {
+        const number = await Hotel.countDocuments({ type: type });
+        return {
+          type: type,
+          count: number,
+        };
       })
     );
     res.status(StatusCodes.OK).json(list);
