@@ -13,9 +13,10 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user)
+    const user = await User.findOne({ username: req.body.username });
+    if (!user) {
       return next(createError(StatusCodes.NOT_FOUND, "User not found!"));
+    }
     const passwordVerified = await user.comparePassword(req.body.password);
     if (!passwordVerified)
       return next(
@@ -26,8 +27,9 @@ export const login = async (req, res, next) => {
     res
       .cookie("access_token", token, { httpOnly: true })
       .status(StatusCodes.OK)
-      .json({ otherDetails });
+      .json({ ...otherDetails });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

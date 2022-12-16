@@ -11,19 +11,26 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from '../../components/hook/useFetch';
 import { SearchContext } from "../../context/SearchContext";
+import { AuthContext } from "../../context/AuthContext";
+import Reserve from "../../components/reserve/Reserve";
 
 
 const Hotel = () => {
+  const { user } = useContext(AuthContext)
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
   const location = useLocation();
   const id = location.pathname.split('/')[2]
   const { data, error, loading } = useFetch(`/hotels/find/${id}`)
 
   const { dates, options } = useContext(SearchContext);
+
+  const navigate = useNavigate()
 
   const MILISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
@@ -49,6 +56,14 @@ const days = (dayDifference(dates[0].endDate, dates[0].startDate))
 
     setSlideNumber(newSlideNumber)
   };
+
+  const reserveHandleClick = () => {
+    if(user) {
+      setOpenModal(true)
+    } else {
+      navigate('/login')
+    }
+  }
 
   return (
     <div>
@@ -120,15 +135,16 @@ const days = (dayDifference(dates[0].endDate, dates[0].startDate))
                   <h2>
                     <b>${ days * data.cheapestPrice * options.room}</b> ({days} nights) {options.room}
                   </h2>
-                  <button>Reserve or Book Now!</button>
+                  <button onClick={reserveHandleClick}>Reserve or Book Now!</button>
                 </div>
               </div>
             </div>
+          <MailList />
+          <Footer />
           </div>
         </>
       }
-      <MailList />
-      <Footer />
+      {openModal && <Reserve setOpenModal={setOpenModal} hotelId={id}/>}
     </div>
   );
 };
