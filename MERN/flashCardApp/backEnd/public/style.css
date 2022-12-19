@@ -1,0 +1,28 @@
+.flip-card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+
+}
+.flip-card:hover #word{
+    transition: all ease-in-out 0.9s;
+    transform: rotateY(-180deg);
+    transform-style: preserve-3d;
+}
+.flip-card:hover #meaning{
+    transition: all ease-in-out 0.9s;
+    transform: rotateY(-0deg);
+    transform-style: preserve-3d;
+}
+#word, #meaning {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4,0.2,0.2,1);
+}
+#word {
+    transform: rotateY(0deg);
+    transform-style: preserve-3d;
+}
+#meaning {
+    transform: rotateY(180deg);
+    transform-style: preserve-3d;
+}

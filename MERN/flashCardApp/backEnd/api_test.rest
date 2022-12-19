@@ -1,0 +1,24 @@
+### get words
+GET http://localhost:5000
+### get word
+GET http://localhost:5000/63679caccb20df80e0867c28
+### create word
+POST  http://localhost:5000
+Content-Type: application/json
+
+{
+    "word": "2me22",
+    "definition": "me2",
+    "stage": 1
+}
+### update words
+PATCH  http://localhost:5000/63679caccb20df80e0867c28
+Content-Type: application/json
+
+{
+    "word": "2me2",
+    "definition": "me2",
+    "stage": 1
+}
+### delete words
+DELETE  http://localhost:5000/63679cd7cb20df80e0867c30

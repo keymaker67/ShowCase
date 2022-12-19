@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <title>Flash Card App</title>
+  </head>
+  <body>
+    <header class="p-3 text-bg-dark">
+      <div class="container">
+        <div
+          class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+        >
+          <a
+            href="/"
+            class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
+          >
+            <svg
+              class="bi me-2"
+              width="40"
+              height="32"
+              role="img"
+              aria-label="Bootstrap"
+            >
+              <use xlink:href="#bootstrap"></use>
+            </svg>
+          </a>
+
+          <ul
+            class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+          >
+            <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+          </ul>
+
+          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+            <input
+              type="search"
+              class="form-control form-control-dark text-bg-dark"
+              placeholder="Search..."
+              aria-label="Search"
+            />
+          </form>
+
+          <div class="text-end">
+            <button type="button" class="btn btn-outline-light me-2">
+              Login
+            </button>
+            <button type="button" class="btn btn-warning">Sign-up</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="container mt-5">
+      <div class="card text-center">
+        <div class="card-header bg-warning">
+          <h2>Flash Card App</h2>
+        </div>
+        <div class="card-body">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="flash-cards"
+                data-bs-toggle="tab"
+                data-bs-target="#flash-cards-pane"
+                type="button"
+                role="tab"
+                aria-controls="flash-cards-pane"
+                aria-selected="true"
+              >
+                Flash cards
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="learned-words"
+                data-bs-toggle="tab"
+                data-bs-target="#learned-words-pane"
+                type="button"
+                role="tab"
+                aria-controls="learned-words-pane"
+                aria-selected="false"
+              >
+                Learned Words
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="new-words"
+                data-bs-toggle="tab"
+                data-bs-target="#new-words-pane"
+                type="button"
+                role="tab"
+                aria-controls="new-words-pane"
+                aria-selected="false"
+              >
+                New Word
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div
+              class="tab-pane fade"
+              id="flash-cards-pane"
+              role="tabpanel"
+              aria-labelledby="flash-cards"
+              tabindex="0"
+            >
+              <div class="row pt-3 pb-2">
+                <div class="col-2">
+                  <button
+                    type="button"
+                    class="btn btn-warning position-relative"
+                  >
+                    Today Words
+                    <span
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    >
+                      99+
+                      <span class="visually-hidden">unread messages</span>
+                    </span>
+                  </button>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-8">
+                  <div class="card">
+                    <div class="card-body" style="height: 50vh">
+                      <div
+                        class="position-absolute top-0 start-0 end-0 m-1 flip-card"
+                      >
+                        <div
+                          class="card position-absolute top-0 start-0 end-0"
+                          id="word"
+                        >
+                          <div class="card-body">word</div>
+                        </div>
+                        <div
+                          class="card position-absolute top-0 start-0 end-0"
+                          id="meaning"
+                        >
+                          <div class="card-body">meaning</div>
+                        </div>
+                      </div>
+                      <div
+                        class="row position-absolute bottom-0 start-0 end-0 m-1"
+                      >
+                        <div class="col-6 d-grid">
+                          <button class="btn btn-success text-uppercase">
+                            I know :)
+                          </button>
+                        </div>
+                        <div class="col-6 d-grid">
+                          <button class="btn btn-danger text-uppercase">
+                            I Don`t know :(
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-1"></div>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade p-1 show active"
+              id="new-words-pane"
+              role="tabpanel"
+              aria-labelledby="new-words"
+              tabindex="0"
+            >
+              <form id="new-word-form" method="post">
+                <div class="mb-3">
+                  <label for="wordInput" class="form-label fs-3"
+                    >New Word</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="wordInput"
+                    aria-describedby="funSentence"
+                    name="word"
+                  />
+                  <div id="funSentence" class="form-text">
+                    What a word to learn today! :)
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="meaningInput" class="form-label fs-3"
+                    >meaning</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="meaningInput"
+                    name="definition"
+                  />
+                </div>
+                <button type="submit" class="btn btn-warning">Submit</button>
+              </form>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="learned-words-pane"
+              role="tabpanel"
+              aria-labelledby="learned-words"
+              tabindex="0"
+            >
+              <table class="table table-warning table-striped">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase" scope="col">#</th>
+                    <th class="text-uppercase" scope="col">word</th>
+                    <th class="text-uppercase" scope="col">meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>help</td>
+                    <td>to help</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
