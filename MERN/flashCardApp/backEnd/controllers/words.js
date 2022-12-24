@@ -4,11 +4,11 @@ import Word from "../model/words.js";
 const getWords = async (req, res) => {
   try {
     const words = await Word.find({}).sort({ createdAt: -1 });
-    const list = words.map((item) => ({
-      word: item.word,
-      definition: item.definition,
-    }));
-    res.status(200).json({ list, nbHits: list.length, words });
+    // const list = words.map((item) => ({
+    //   word: item.word,
+    //   definition: item.definition,
+    // }));
+    res.status(200).json({ words });
   } catch (error) {
     res.status(401).json({ msg: error.message });
   }
