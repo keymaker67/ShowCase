@@ -10,7 +10,7 @@ export default function useStageUpdater(url) {
       setLoading(true);
 
       const today = new Date().getTime();
-      const res = await axios.get("/words");
+      const res = await axios.get(url);
       const flashCards = res.data.words;
 
       // eslint-disable-next-line array-callback-return

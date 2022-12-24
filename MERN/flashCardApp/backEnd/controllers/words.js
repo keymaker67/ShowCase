@@ -3,11 +3,8 @@ import Word from "../model/words.js";
 // Get all words
 const getWords = async (req, res) => {
   try {
-    const words = await Word.find({}).sort({ createdAt: -1 });
-    // const list = words.map((item) => ({
-    //   word: item.word,
-    //   definition: item.definition,
-    // }));
+    // const words = await Word.find({}).sort({ createdAt: -1 });
+    const words = await Word.find({}).sort(req.query.sort);
     res.status(200).json({ words });
   } catch (error) {
     res.status(401).json({ msg: error.message });
@@ -52,7 +49,7 @@ const updateWord = async (req, res) => {
 const deleteWord = async (req, res) => {
   try {
     const word = await Word.findByIdAndRemove(req.params.id);
-    res.status(200).json({ msg: "deleted succesfully" });
+    res.status(200).json(word);
   } catch (error) {
     res.status(401).json({ msg: error.message });
   }

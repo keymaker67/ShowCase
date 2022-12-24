@@ -7,11 +7,17 @@ import Badge from "react-bootstrap/Badge";
 
 import useStageUpdater from "./hooks/useStageUpdater";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const TodayWords = () => {
-  const { flashCards, loading } = useStageUpdater("/words");
+  const { flashCards, loading } = useStageUpdater("/words?sort=word");
+  const [flCards, setFlCards] = useState(null);
 
-  async function handleKnewButton(e, id, i) {
+  useEffect(() => {
+    setFlCards(flashCards);
+  }, [loading, flashCards]);
+
+  async function handleButton(e, id) {
     if (e.target.value === "Know") {
       await axios.patch(`/words/${id}`, {
         $inc: { stage: 1 },
@@ -19,20 +25,20 @@ const TodayWords = () => {
       });
     } else {
       await axios.patch(`/words/${id}`, {
-        $inc: { stage: -1 },
+        stage: 1,
         last_review_date: new Date().getTime(),
       });
     }
-    flashCards.splice(i);
+    setFlCards(flCards.filter((flCard) => flCard._id !== id));
   }
 
   return (
     <Card className="text-center" bg="warning">
       <Card.Header>
-        {flashCards && flashCards.length > 0 ? (
+        {flCards && flCards.length > 0 ? (
           <div>
             <span style={{ fontSize: "40px" }}>Here you are, Have fun!</span>
-            <Badge bg="danger">{flashCards.length}</Badge>
+            <Badge bg="danger">{flCards.length}</Badge>
           </div>
         ) : (
           <span style={{ fontSize: "40px" }}>No words today!</span>
@@ -43,8 +49,8 @@ const TodayWords = () => {
           {loading ? (
             <span>Loading</span>
           ) : (
-            flashCards &&
-            flashCards.map((flashCard, i) => (
+            flCards &&
+            flCards.map((flashCard, i) => (
               <Carousel.Item key={flashCard._id}>
                 <Accordion>
                   <Card bg="info">
@@ -63,7 +69,7 @@ const TodayWords = () => {
                       <Button
                         value={"Know"}
                         style={{ width: "20vw" }}
-                        onClick={(e) => handleKnewButton(e, flashCard._id, i)}
+                        onClick={(e) => handleButton(e, flashCard._id)}
                         className="me-2"
                       >
                         I knew it
@@ -71,7 +77,7 @@ const TodayWords = () => {
                       <Button
                         value={"DKnow"}
                         style={{ width: "20vw" }}
-                        onClick={(e) => handleKnewButton(e, flashCard._id, i)}
+                        onClick={(e) => handleButton(e, flashCard._id)}
                       >
                         Lets practice more
                       </Button>
