@@ -50,7 +50,7 @@ export default function useStageUpdater(url) {
       setLoading(false);
     };
     flashCardsUpdater();
-  }, []);
+  }, [url]);
 
   return { flashCards, loading };
 }

@@ -25,7 +25,7 @@ const TodayWords = () => {
       });
     } else {
       await axios.patch(`/words/${id}`, {
-        stage: 1,
+        $set: { stage: 1 },
         last_review_date: new Date().getTime(),
       });
     }
