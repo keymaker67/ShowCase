@@ -10,11 +10,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const TodayWords = () => {
-  const { flashCards, loading } = useStageUpdater("/words?sort=word");
+  const { flashCards, loading } = useStageUpdater("/words?sort={word, stage}");
   const [flCards, setFlCards] = useState(null);
 
   useEffect(() => {
-    setFlCards(flashCards);
+    let unicFlashcars = [...new Set(flashCards)];
+    setFlCards(unicFlashcars);
   }, [loading, flashCards]);
 
   async function handleButton(e, id) {

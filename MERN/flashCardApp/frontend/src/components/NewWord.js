@@ -17,7 +17,7 @@ const NewWord = () => {
   const [reverseNewwWord, setReverseNewWord] = useState(null);
 
   const handleChange = (e) => {
-    setFlashCard((perv) => ({ ...perv, [e.target.id]: e.target.value }));
+    // setFlashCard((perv) => ({ ...perv, [e.target.id]: e.target.value }));
     setReverseFlashCard((perv) => ({
       ...perv,
       [e.target.id === "word" ? "definition" : "word"]: e.target.value,

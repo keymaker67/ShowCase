@@ -13,7 +13,7 @@ const wordSchema = new Schema(
     },
     stage: {
       type: Number,
-      default: 0,
+      default: 1,
     },
     last_review_date: {
       type: Number,
