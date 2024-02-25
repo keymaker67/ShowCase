@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+{% if customer_detail %}
+<table class="table table-striped table-dark">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Email</td>
+        <td>address</td>
+        <td>city</td>
+        <td>state</td>
+        <td>phone</td>
+        <td>country</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ customer_detail.id }}</td>
+        <td>{{ customer_detail.first_name }}</td>
+        <td>{{ customer_detail.last_name }}</td>
+        <td>{{ customer_detail.email }}</td>
+        <td>{{ customer_detail.address }}</td>
+        <td>{{ customer_detail.city }}</td>
+        <td>{{ customer_detail.state }}</td>
+        <td>{{ customer_detail.phone }}</td>
+        <td>{{ customer_detail.country }}</td>
+    </tr>
+    </tbody>
+</table>
+<a class="btn btn-success" href="{% url 'home' %}" >Back</a>
+<a href="{% url 'customer_delete' customer_detail.id %}" type="button" class="btn btn-warning">Delete</a>
+<a href="{% url 'customer_update' customer_detail.id %}" type="button" class="btn btn-warning">Update</a>
+{% endif %}
+
+{% endblock %}
