@@ -1,0 +1,14 @@
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = ''
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+ADMIN_PATH = ''
+
+LOGIN_REDIRECT_URL = ''
+LOGOUT_REDIRECT_URL = ''
+LOGOUT_URL = ''
+
