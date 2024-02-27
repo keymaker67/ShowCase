@@ -23,8 +23,7 @@ class MyBaseModel(models.Model):
 
 # Create profile for users
 class UserProfile(MyBaseModel):
-    user = models.OneToOneField(User, on_delete=models.PROTECT)                         # Make relation to login user
-    id_user = models.IntegerField(null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.PROTECT, unique=True)  # Make relation to login user
     public = models.BooleanField(null=False, blank=False, default=False)
     profile_picture = models.ImageField(upload_to='%Y/%m', null=True, blank=True)
     bio = models.TextField(max_length=500, null=True, blank=True)
@@ -35,5 +34,4 @@ class UserProfile(MyBaseModel):
         verbose_name_plural = 'Users Profile'
 
     def __str__(self):
-        return self.user
-
+        return str(self.user)
