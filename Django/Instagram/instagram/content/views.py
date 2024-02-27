@@ -1,3 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+# Create content view
+def post_view(request):
+    user = request.user
+    return render(request, 'main/index.html')

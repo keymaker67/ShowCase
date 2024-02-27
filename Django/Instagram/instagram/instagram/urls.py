@@ -10,6 +10,8 @@ from .local_settings import ADMIN_PATH
 
 urlpatterns = [
     path(f'{ADMIN_PATH}/', admin.site.urls),
+    path('', include('content.urls')),
+    path('user/', include('user.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT,)

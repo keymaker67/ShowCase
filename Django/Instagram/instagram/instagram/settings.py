@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     'tag.apps.TagConfig',
     'user.apps.UserConfig',
     'user_activity.apps.UserActivityConfig',
+
+    # ThirdPartyApps
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 REST_FRAMEWORK = {
@@ -113,7 +117,7 @@ ROOT_URLCONF = 'instagram.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -187,5 +191,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = LOGIN_REDIRECT_URL_PATH
 LOGOUT_REDIRECT_URL = LOGOUT_REDIRECT_URL_PATH
 LOGOUT_URL = LOGOUT_URL_PATH
+LOGIN_URL = LOGIN_URL_PATH
 
 CORS_ALLOW_ALL_ORIGINS = CORS_ALLOW_ALL_ORIGINS_BOOLEAN
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
