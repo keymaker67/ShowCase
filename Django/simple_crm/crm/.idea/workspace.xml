@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6cd8fc0e-b235-4f02-b20d-a139c738ff85" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/crm.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/CRM-Django.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/CRM-Django.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Auth/frontend/src/pages/homepage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auth/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../Auth/frontend/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auth/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Auth/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auth/frontend/src/App.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auth/frontend/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auth/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Auth/frontend/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auth/frontend/src/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auth/frontend/src/reportWebVitals.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auth/frontend/src/setupTests.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
