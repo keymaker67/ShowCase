@@ -9,6 +9,23 @@ from .models import (
     MediaModel
 )
 
+INLINE_MAX_NUM = 1
+
+
+class CommentInline(admin.StackedInline):
+    model = CommentModel
+    max_num = INLINE_MAX_NUM
+
+
+class MediaInline(admin.StackedInline):
+    model = MediaModel
+    max_num = INLINE_MAX_NUM
+
+
+class PostInline(admin.StackedInline):
+    model = PostModel
+    max_num = INLINE_MAX_NUM
+
 
 # Admin actions
 @admin.action(description='Activate selected items')
@@ -52,6 +69,9 @@ class CategoryAdmin(admin.ModelAdmin):
         activate_selected_items,
         deactivate_selected_items,
     )
+
+    inlines = [PostInline, ]
+
 
 
 @register(MediaModel)
@@ -132,6 +152,8 @@ class PostAdmin(admin.ModelAdmin):
         activate_selected_items,
         deactivate_selected_items,
     )
+
+    inlines = [MediaInline, CommentInline]
 
 
 @register(CommentModel)

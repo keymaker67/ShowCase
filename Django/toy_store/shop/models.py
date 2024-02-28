@@ -61,7 +61,7 @@ class ProductModel(MyBaseModel):
 
     @property
     def price(self):
-        return self.prices.filter(is_active=True).last()
+        return self.prices.filter(is_active=True).last().amount
 
 
 class MediaModel(MyBaseModel):

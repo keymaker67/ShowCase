@@ -11,6 +11,22 @@ from .models import (
     PriceModel,
 )
 
+INLINE_MAX_NUM = 1
+
+class MediaInline(admin.StackedInline):
+    model = MediaModel
+    max_num = INLINE_MAX_NUM
+
+
+class ProductInline(admin.StackedInline):
+    model = ProductModel
+    max_num = INLINE_MAX_NUM
+
+
+class CommentInline(admin.StackedInline):
+    model = CommentModel
+    max_num = INLINE_MAX_NUM
+
 
 # Admin actions
 @admin.action(description='Activate selected items')
@@ -54,6 +70,8 @@ class CategoryAdmin(admin.ModelAdmin):
         activate_selected_items,
         deactivate_selected_items,
     )
+
+    inlines = [ProductInline, ]
 
 
 @register(MediaModel)
@@ -138,6 +156,8 @@ class ProductAdmin(admin.ModelAdmin):
         activate_selected_items,
         deactivate_selected_items,
     )
+
+    inlines = [MediaInline, CommentInline]
 
     def thumbnail_image(self, obj):
         # Define the method to display the thumbnail image

@@ -3,6 +3,7 @@ from datetime import datetime
 from django.shortcuts import render
 from rest_framework import viewsets, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import OrderModel, OrderItemModel
@@ -48,6 +49,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 class OrderItemViewSet(viewsets.ModelViewSet):
     serializer_class = OrderItemSerializer
     queryset = OrderItemModel.objects.filter(is_active=True).order_by('-pk')
+    permission_classes = (IsAuthenticated,)
 
     filterset_fields = (
         'product',
@@ -71,26 +73,27 @@ class OrderItemViewSet(viewsets.ModelViewSet):
 
         # Check if there is an active order for the user
         user = self.request.user
-        active_order = OrderModel.objects.filter(user=user, is_active=True).first()
+        if user:
+            active_order = OrderModel.objects.filter(user=user, is_active=True).first()
 
-        if not active_order:
-            # Create a new active order for the user
-            active_order = OrderModel.objects.create(
-                user=user,
+            if not active_order:
+                # Create a new active order for the user
+                active_order = OrderModel.objects.create(
+                    user=user,
+                    is_active=True,
+                    title=f'{user} order at {datetime.now()}',
+                )
+
+            # Create and Order Item for the product and add it to the active order
+            order_item = OrderItemModel.objects.create(
+                product=product,
+                quantity=request.data['quantity'],
+                order=active_order,
                 is_active=True,
-                title=f'{user} order at {datetime.now()}',
             )
 
-        # Create and Order Item for the product and add it to the active order
-        order_item = OrderItemModel.objects.create(
-            product=product,
-            quantity=request.data['quantity'],
-            order=active_order,
-            is_active=True,
-        )
-
-        serializer = self.get_serializer(order_item)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            serializer = self.get_serializer(order_item)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 def shopping_cart_view(request):

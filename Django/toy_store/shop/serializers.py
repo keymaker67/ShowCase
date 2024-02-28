@@ -14,17 +14,23 @@ class CategorySerializer(serializers.ModelSerializer, ):
         fields = '__all__'
 
 
-class ProductSerializer(serializers.ModelSerializer, ):
-
-    class Meta:
-        model = ProductModel
-        fields = '__all__'
-
-
 class MediaSerializer(serializers.ModelSerializer, ):
     class Meta:
         model = MediaModel
         fields = '__all__'
+
+
+class ProductSerializer(serializers.ModelSerializer, ):
+    category = CategorySerializer(read_only=True)
+    class Meta:
+        model = ProductModel
+        fields = (
+            'id',
+            'title',
+            'description',
+            'category',
+            'price',
+        )
 
 
 class CommentSerializer(serializers.ModelSerializer, ):
