@@ -23,11 +23,16 @@ class MyBaseModel(models.Model):
 
 # Create profile for users
 class UserProfile(MyBaseModel):
-    user = models.OneToOneField(User, on_delete=models.PROTECT, unique=True)  # Make relation to login user
-    public = models.BooleanField(null=False, blank=False, default=False)
-    profile_picture = models.ImageField(upload_to='%Y/%m', null=True, blank=True)
-    bio = models.TextField(max_length=500, null=True, blank=True)
-    location = models.CharField(max_length=100, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, unique=True,
+                             verbose_name='User', related_name='profiles')  # Make relation to login user
+    public = models.BooleanField(null=False, blank=False, default=False,
+                                 verbose_name='Public')
+    profile_picture = models.ImageField(upload_to='%Y/%m', null=True, blank=True,
+                                        verbose_name='Profile picture')
+    bio = models.TextField(max_length=500, null=True, blank=True,
+                           verbose_name='Bio')
+    location = models.CharField(max_length=100, null=True, blank=True,
+                                verbose_name='Location')
 
     class Meta:
         verbose_name = 'User Profile'
