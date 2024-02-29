@@ -13,6 +13,7 @@ from .models import (
 
 INLINE_MAX_NUM = 1
 
+
 class MediaInline(admin.StackedInline):
     model = MediaModel
     max_num = INLINE_MAX_NUM

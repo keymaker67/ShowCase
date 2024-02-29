@@ -59,8 +59,18 @@ class StoryAdmin(admin.ModelAdmin):
 
 @register(MediaModel)
 class MediaAdmin(admin.ModelAdmin):
-    list_display = ('post', 'story', 'media_file', 'media_type', )
+    list_display = ('post', 'story', 'display_media_link', 'media_type', )
     list_display_links = ('post', )
     list_filter = ('post', 'media_type', )
     search_fields = ('media_type', 'post__caption', )
     date_hierarchy = 'created_date'
+
+    def display_media_link(self, obj):
+        # Define a custom method to render the media file link using a template
+        if obj.media_file:
+            return render_to_string('media/media_file_link.html', {'obj': obj})
+        else:
+            return '-'
+
+    display_media_link.allow_tags = True
+    display_media_link.short_description = 'Media File'
