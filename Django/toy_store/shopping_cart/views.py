@@ -15,6 +15,7 @@ from shop.models import ProductModel
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     queryset = OrderModel.objects.filter(is_active=True).order_by('-pk')
+    permission_classes = (IsAuthenticated,)
 
     filterset_fields = (
         'title',

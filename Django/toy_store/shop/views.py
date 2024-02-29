@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.decorators import login_required
+from rest_framework.permissions import IsAuthenticated
 
 
 from .models import (
@@ -22,6 +23,7 @@ from .serializers import (
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     queryset = CategoryModel.objects.filter(is_active=True).order_by('-pk')
+    permission_classes = (IsAuthenticated,)
 
     filter_backends = (
         DjangoFilterBackend,
@@ -41,6 +43,7 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 class MediaViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = MediaSerializer
     queryset = MediaModel.objects.filter(is_active=True).order_by('-pk')
+    permission_classes = (IsAuthenticated,)
 
     filter_backends = (
         DjangoFilterBackend,
@@ -63,6 +66,7 @@ class MediaViewSet(viewsets.ReadOnlyModelViewSet):
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ProductSerializer
     queryset = ProductModel.objects.filter(is_active=True).order_by('-pk')
+    permission_classes = (IsAuthenticated,)
 
     filter_backends = (
         DjangoFilterBackend,
@@ -85,6 +89,7 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     queryset = CommentModel.objects.filter(is_active=True).order_by('-pk')
+    permission_classes = (IsAuthenticated,)
 
     filter_backends = (
         DjangoFilterBackend,
