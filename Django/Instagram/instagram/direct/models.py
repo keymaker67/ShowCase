@@ -10,8 +10,14 @@ User = get_user_model()
 # Create Direct message model
 class DirectMessageModel(MyBaseModel):
     text_message = models.TextField(blank=True, verbose_name='Text message')
-    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.PROTECT,
-                             verbose_name='User', related_name='direct_messages')   # Relate it to a user
+    sending_user = models.ForeignKey(
+        User, blank=False, null=False, on_delete=models.PROTECT,
+        verbose_name='Sending user', related_name='direct_messages'
+    )   # Relate it to a sending user
+    receiving_user = models.ForeignKey(
+        User, blank=False, null=False, on_delete=models.PROTECT,
+        verbose_name='Receiving user', related_name='direct_messages'
+    )   # Relate it to a sending user
     media_file = models.FileField(
         upload_to='message/%Y/%m', blank=True, verbose_name='Media File')
     media_type = models.CharField(

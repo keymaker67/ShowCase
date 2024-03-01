@@ -7,4 +7,6 @@ from .models import DirectMessageModel
 class DirectMessageSerializer(ModelSerializer):
     class Meta:
         model = DirectMessageModel
-        fields = ('text_message', 'user', 'media_file', 'media_type', )
+        fields = (
+            'text_message', 'sending_user', 'receiving_user', 'media_file', 'media_type',
+        )

@@ -11,9 +11,9 @@ class DirectMessageAdmin(admin.ModelAdmin):
     list_display = (
         'text_message', 'user', 'media_type', 'display_media_link'
     )
-    list_display_links = ('user', )
-    list_filter = ('user', 'media_type')
-    search_fields = ('text_message', 'user__username', )
+    list_display_links = ('sending_user', 'receiving_user', )
+    list_filter = ('sending_user', 'receiving_user', 'media_type')
+    search_fields = ('text_message', 'sending_user__username', 'receiving_user__username', )
     date_hierarchy = 'created_date'
 
     def display_media_link(self, obj):
