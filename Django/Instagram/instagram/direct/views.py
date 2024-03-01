@@ -13,9 +13,9 @@ from content.views import MyBaseViewSet
 
 
 # Create ViewSets
-class DirectMessageViewSet(
-    MyBaseViewSet, DirectMessageSerializer, DirectMessageModel
-):
+class DirectMessageViewSet(MyBaseViewSet):
+    serializer_class = DirectMessageSerializer
+    model = DirectMessageModel
     filterset_fields = ('text_message', 'sending_user', 'receiving_user', )
     search_fields = ('text_message', 'sending_user', 'receiving_user', )
 

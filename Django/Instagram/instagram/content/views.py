@@ -16,9 +16,7 @@ from .serializers import (
 
 # Create content view
 # Create a base ViewSet
-class MyBaseViewSet(ModelViewSet, serializer, model):
-    serializer_class = serilizer
-    queryset = model.objects.filter(is_active=True).order_by('-pk')
+class MyBaseViewSet(ModelViewSet):
     permission_classes = (IsAuthenticated, )
 
     filter_backends = (
@@ -27,19 +25,30 @@ class MyBaseViewSet(ModelViewSet, serializer, model):
         SearchFilter
     )
 
+    def get_serializer_class(self):
+        return self.serializer_class
+
+    def get_queryset(self):
+        return self.model.objects.filter(is_active=True).order_by('-pk')
+
 
 # Create ViewSets for serializers
-class MediaViewSet(MyBaseViewSet, MentionSerializer, MediaModel):
-    filterset_fields = ('post', 'story', )
-    search_fields = ('post', 'story', )
+class MediaViewSet(MyBaseViewSet):
+    serializer_class = MediaSerializer
+    model = MediaModel
+    search_fields = ('content_type', 'object_id', 'content_object', 'story', )
 
 
-class MentionViewSet(MyBaseViewSet, MentionSerializer, MentionModel):
-    filterset_fields = ('post', 'story', 'user', )
-    search_fields = ('post', 'story', 'user', )
+class MentionViewSet(MyBaseViewSet):
+    serializer_class = MentionSerializer
+    model = MentionModel
+    filterset_fields = ('user', )
+    search_fields = ('content_type', 'object_id', 'content_object', 'user', )
 
 
-class PostViewSet(ModelViewSet, PostSerializer, PostModel):
+class PostViewSet(MyBaseViewSet):
+    serializer_class = PostSerializer
+    model = PostModel
     filterset_fields = ('user', 'allow_comments', 'show_like', 'close_friends_only', )
     search_fields = ('user', )
 
@@ -47,7 +56,9 @@ class PostViewSet(ModelViewSet, PostSerializer, PostModel):
         serializer.save(user=self.request.user)
 
 
-class StoryViewSet(ModelViewSet, StorySerializer, StoryModel):
+class StoryViewSet(MyBaseViewSet):
+    serializer_class = StorySerializer
+    model = StoryModel
     filterset_fields = ('user', 'allow_comments', 'close_friends_only', )
     search_fields = ('user', )
 

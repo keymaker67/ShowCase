@@ -13,9 +13,9 @@ from content.views import MyBaseViewSet
 
 
 # Create viewSets
-class PreviewViewSet(
-    MyBaseViewSet, PreviewSerializer, PreviewModel
-):
+class PreviewViewSet(MyBaseViewSet):
+    serializer_class = PreviewSerializer
+    model = PreviewModel
     filterset_filters = ('user', 'profile', 'story', 'post')
     search_filters = ('user', 'profile', 'story', 'post')
 

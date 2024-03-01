@@ -53,8 +53,8 @@ def logout_view(request):
 
 
 # Create ViewSets
-class UserProfileViewSet(
-    MyBaseViewSet, UserProfileSerializer, UserProfile
-):
+class UserProfileViewSet(MyBaseViewSet):
+    serializer_class = UserProfileSerializer
+    model = UserProfile
     filterset_filters = ('user', 'public', 'bio', 'location')
     search_filters = ('user', 'public', 'bio', 'location')

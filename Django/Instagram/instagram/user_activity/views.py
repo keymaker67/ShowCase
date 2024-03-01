@@ -13,15 +13,15 @@ from content.views import MyBaseViewSet
 
 
 # Create Views and ViewSets.
-class CommentViewSet(
-    MyBaseViewSet, CommentSerializer, CommentModel
-):
+class CommentViewSet(MyBaseViewSet):
+    serializer_class = CommentSerializer
+    model = CommentModel
     filterset_fields = ('user', 'post', 'story', 'comment')
     search_fields = ('user', 'post', 'story', 'comment')
 
 
-class LikeViewSet(
-    MyBaseViewSet, LikeSerializer, LikeModel
-):
+class LikeViewSet(MyBaseViewSet):
+    serializer_class = LikeSerializer
+    model = LikeModel
     filterset_fields = ('user', 'post', 'story', 'comment')
     search_fields = ('user', 'post', 'story', 'comment')

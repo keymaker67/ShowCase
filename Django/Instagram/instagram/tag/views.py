@@ -13,8 +13,8 @@ from content.views import MyBaseViewSet
 
 
 # Create ViewSets.
-class TagViewSet(
-    MyBaseViewSet, TagSerializer, TagModel
-):
+class TagViewSet(MyBaseViewSet):
+    serializer_class = TagSerializer
+    model = TagModel
     filterset_fields = ('title', 'post', 'story', )
     search_fields = ('title', 'post', 'story', )
