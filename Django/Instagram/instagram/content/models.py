@@ -29,7 +29,7 @@ class PostModel(MyBaseModel):
         verbose_name_plural = 'Posts'
 
     def __str__(self):
-        return f'{str(self.user)} Created a post at {self.created_date}'
+        return f'{str(self.user)}'
 
 
 # Create story model related to users
@@ -46,7 +46,7 @@ class StoryModel(MyBaseModel):
         verbose_name_plural = 'stories'
 
     def __str__(self):
-        return f'{self.user}'
+        return f'{self.created_date}'
 
 
 # Create mention model
