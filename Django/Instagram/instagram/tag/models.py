@@ -12,11 +12,6 @@ User = get_user_model()
 class TagModel(MyBaseModel):
     title = models.CharField(max_length=100,
                              null=False, blank=False, verbose_name='Title')
-    user = models.ForeignKey(
-        User, null=False, blank=False,
-        verbose_name='User', related_name='tags',
-        on_delete=models.PROTECT
-    )
     post = models.ForeignKey(
         PostModel, null=True, blank=True,
         verbose_name='Post', related_name='tags',

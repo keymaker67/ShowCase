@@ -7,8 +7,8 @@ from .models import TagModel
 # Register Tag model and create admin
 @register(TagModel)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('title', 'user', 'post', 'story', )
-    list_display_links = ('title', 'user', 'post', 'story', )
-    list_filter = ('user', 'post', 'story', )
-    search_fields = ('title', 'user__username', 'post', 'story', )
+    list_display = ('title', 'post', 'story', )
+    list_display_links = ('title', 'post', 'story', )
+    list_filter = ('post', 'story', )
+    search_fields = ('title', 'post', 'story', )
     date_hierarchy = 'created_date'

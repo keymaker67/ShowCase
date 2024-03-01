@@ -7,4 +7,4 @@ from .models import TagModel
 class TagSerializer(ModelSerializer):
     class Meta:
         model = TagModel
-        fields = ('title', 'user', 'post', 'story', )
+        fields = ('title', 'post', 'story', )
