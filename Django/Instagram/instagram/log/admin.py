@@ -11,3 +11,4 @@ class PreviewAdmin(admin.ModelAdmin):
     list_display_links = ('user', 'profile', 'story', 'post', )
     list_filter = ('user', )
     search_fields = ('user', 'post', 'story', 'profile')
+    date_hierarchy = 'created_date'

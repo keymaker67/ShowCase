@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin.decorators import register
+from django.template.loader import render_to_string
 
 from .models import (
     PostModel, MediaModel, StoryModel, MentionModel
@@ -48,7 +49,7 @@ class MentionAdmin(admin.ModelAdmin):
 
 @register(StoryModel)
 class StoryAdmin(admin.ModelAdmin):
-    list_display = ('user', 'allow_comments', 'close_friends_only', )
+    list_display = ('user', 'allow_comments', 'close_friends_only', 'created_date', 'updated_date')
     list_display_links = ('user', )
     list_filter = ('user', 'close_friends_only', 'allow_comments')
     search_fields = ('user__username', 'post__caption', )

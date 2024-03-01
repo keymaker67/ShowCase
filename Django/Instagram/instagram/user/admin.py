@@ -20,6 +20,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_filter = ('public', 'location')
     search_fields = ('user', 'location', 'user__username', 'user__first_name', 'user__last_name')
     list_display_links = ('user', )
+    date_hierarchy = 'created_date'
 
     actions = (
         activate_selected_items,

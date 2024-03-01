@@ -11,3 +11,5 @@ class CommentAdmin(admin.ModelAdmin):
     list_display_links = ('comment', 'user', 'post', 'story', )
     list_filter = ('user', )
     search_fields = ('comment', 'user', 'post', 'story', )
+    date_hierarchy = 'created_date'
+

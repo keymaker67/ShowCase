@@ -11,3 +11,4 @@ class TagAdmin(admin.ModelAdmin):
     list_display_links = ('title', 'user', 'post', 'story', )
     list_filter = ('user', 'post', 'story', )
     search_fields = ('title', 'user__username', 'post', 'story', )
+    date_hierarchy = 'created_date'

@@ -14,6 +14,7 @@ class DirectMessageAdmin(admin.ModelAdmin):
     list_display_links = ('user', )
     list_filter = ('user', 'media_type')
     search_fields = ('text_message', 'user__username', )
+    date_hierarchy = 'created_date'
 
     def display_media_link(self, obj):
         # Define a custom method to render the media file link using a template
