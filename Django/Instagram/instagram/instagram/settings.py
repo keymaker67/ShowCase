@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'django_filters',
 
     # MyApps
     'content.apps.ContentConfig',
@@ -58,7 +59,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ) if DEBUG else (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
 }
 
 SIMPLE_JWT = {
