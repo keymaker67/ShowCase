@@ -8,19 +8,14 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import PreviewModel
 from .serializers import PreviewSerializer
 
+# Import MyBaseViewSet
+from content.views import MyBaseViewSet
+
 
 # Create viewSets
-class PreviewViewSet(ModelViewSet):
-    serializer_class = PreviewSerializer
-    queryset = PreviewModel.objects.filter(is_active=True).order_by('-pk')
-    permission_classes = (IsAuthenticated, )
-
-    filter_backends = (
-        DjangoFilterBackend,
-        SearchFilter,
-        OrderingFilter,
-    )
-
+class PreviewViewSet(
+    MyBaseViewSet, PreviewSerializer, PreviewModel
+):
     filterset_filters = ('user', 'profile', 'story', 'post')
     search_filters = ('user', 'profile', 'story', 'post')
 

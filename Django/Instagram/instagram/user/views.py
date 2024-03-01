@@ -3,14 +3,18 @@ from django.contrib.auth import get_user_model, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
 
+# Import Models and Serializers
 from .forms import UserProfileForm
 from .models import UserProfile
 from .serializers import UserProfileSerializer
+
+# Import MyBaseViewSet
+from content.views import MyBaseViewSet
 
 User = get_user_model()
 
@@ -49,16 +53,8 @@ def logout_view(request):
 
 
 # Create ViewSets
-class UserProfileViewSet(ModelViewSet):
-    serializer_class = UserProfileSerializer
-    queryset = UserProfile.objects.filter(is_active=True).order_by('-pk')
-    permission_classes = (IsAuthenticated, )
-
-    filter_backends = (
-        DjangoFilterBackend,
-        SearchFilter,
-        OrderingFilter,
-    )
-
+class UserProfileViewSet(
+    MyBaseViewSet, UserProfileSerializer, UserProfile
+):
     filterset_filters = ('user', 'public', 'bio', 'location')
     search_filters = ('user', 'public', 'bio', 'location')

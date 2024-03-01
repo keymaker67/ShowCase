@@ -8,18 +8,13 @@ from rest_framework.permissions import IsAuthenticated
 from .models import TagModel
 from .serializers import TagSerializer
 
+# Import MyBaseViewSet
+from content.views import MyBaseViewSet
+
 
 # Create ViewSets.
-class TagViewSet(ModelViewSet):
-    serializer_class = TagSerializer
-    queryset = TagModel.objects.filter(is_active=True).oreder_by('-pk')
-    permission_classes = (IsAuthenticated, )
-
-    filter_backends = (
-        DjangoFilterBackend,
-        SearchFilter,
-        OrderingFilter,
-    )
-
+class TagViewSet(
+    MyBaseViewSet, TagSerializer, TagModel
+):
     filterset_fields = ('title', 'post', 'story', )
     search_fields = ('title', 'post', 'story', )
