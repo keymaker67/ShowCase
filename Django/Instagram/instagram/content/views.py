@@ -70,3 +70,7 @@ class StoryViewSet(MyBaseViewSet):
 # Create main view
 def post_view(request):
     return render(request, 'main/index.html')
+
+
+def rdf_view(request):
+    return render(request, 'main/drf.html')

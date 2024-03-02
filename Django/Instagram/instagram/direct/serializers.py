@@ -8,5 +8,5 @@ class DirectMessageSerializer(ModelSerializer):
     class Meta:
         model = DirectMessageModel
         fields = (
-            'text_message', 'sending_user', 'receiving_user', 'media_file', 'media_type',
+            'text_message', 'sender', 'receiver', 'media_file', 'media_type',
         )

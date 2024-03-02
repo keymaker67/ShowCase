@@ -56,6 +56,11 @@ def logout_view(request):
     return redirect('home')
 
 
+@login_required
+def user_profile_view(request):
+    return render(request, 'user_profile.html')
+
+
 # Create ViewSets
 class UserProfileViewSet(MyBaseViewSet):
     serializer_class = UserProfileSerializer

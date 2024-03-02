@@ -57,4 +57,4 @@ class LikeModel(MyBaseModel):
         unique_together = ('content_type', 'object_id', 'user')
 
     def __str__(self):
-        return f'{self.post} + {self.user}'
+        return f'{self.content_type} + {self.user}'

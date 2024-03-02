@@ -6,7 +6,7 @@ from .views import CommentViewSet, LikeViewSet
 
 # Create Default router
 user_activity_router = DefaultRouter()
-user_activity_router.register('like', CommentViewSet, 'like')
+user_activity_router.register('comment', CommentViewSet, 'comment')
 user_activity_router.register('like', LikeViewSet, 'like')
 
 urlpatterns = [

@@ -11,7 +11,7 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'username', 'first_name', 'last_name', 'created_date', 'is_active'
+            'username', 'first_name', 'last_name', 'is_active'
         )
 
 
@@ -32,10 +32,10 @@ class UserRelationSerializer(ModelSerializer):
 
 
 class CloseFriendSerializer(ModelSerializer):
-    user_relation = UserRelationSerializer(read_only=True)
-    close_friend = UserSerializer(read_only=True)
+    close_friend = UserRelationSerializer(read_only=True)
+    # close_friend = UserSerializer(read_only=True)
 
     class Meta:
         model = CloseFriendModel
-        fields = ('user_relate', 'close_friend')
+        fields = ('close_friend', )
 

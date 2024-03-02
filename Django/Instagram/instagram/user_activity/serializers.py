@@ -15,8 +15,8 @@ class LikeSerializer(ModelSerializer):
 
 class CommentSerializer(ModelSerializer):
     content_object = GenericRelatedField()
-    comment = LikeSerializer(many=True)  # Assuming 'media' is a related field
+    like = LikeSerializer(many=True)  # Assuming 'media' is a related field
 
     class Meta:
         model = CommentModel
-        fields = ('user', 'content_object', 'object_id', 'content_type', 'comment')
+        fields = ('user', 'content_object', 'object_id', 'content_type', 'comment', 'like', )

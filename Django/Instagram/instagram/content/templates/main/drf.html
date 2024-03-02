@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Posts
+{% endblock %}
+{% block content %}
+<table class="table">
+  <tbody>
+    <tr>
+        <th scope="row" class="table-dark">content</th>
+        <td><a href="/post" style="text-decoration: none">post</a></td>
+        <td><a href="/story" style="text-decoration: none">story</a></td>
+        <td><a href="/media" style="text-decoration: none">media</a></td>
+        <td><a href="/mention" style="text-decoration: none">mention</a></td>
+    </tr>
+    <tr>
+        <th scope="row" class="table-dark">direct</th>
+        <td><a href="/direct/direct" style="text-decoration: none">direct</a></td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <th scope="row" class="table-dark">log</th>
+        <td><a href="/log/preview" style="text-decoration: none">preview</a></td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <th scope="row" class="table-dark">tag</th>
+        <td><a href="/tag/tag" style="text-decoration: none">tag</a></td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <th scope="row" class="table-dark">user</th>
+        <td><a href="/user/user_profile" style="text-decoration: none">user profile</a></td>
+        <td><a href="/user/user_relate" style="text-decoration: none">user relation</a></td>
+        <td><a href="/user/close_friend" style="text-decoration: none">close friend</a></td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <th scope="row" class="table-dark">user activity</th>
+        <td><a href="/user_activity/comment" style="text-decoration: none">comment</a></td>
+        <td><a href="/user_activity/like" style="text-decoration: none">like</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}

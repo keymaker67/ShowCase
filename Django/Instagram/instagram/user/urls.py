@@ -6,6 +6,7 @@ from .views import (
     signup_view,
     login_view,
     logout_view,
+    user_profile_view,
     UserProfileViewSet,
     UserRelationViewSet,
     CloseFriendViewSet,
@@ -21,5 +22,6 @@ urlpatterns = [
     path('signup/', signup_view, name='signup'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
+    path('profile', user_profile_view, name='profile'),
     path('', include(user_profile_router.urls, )),
 ]
