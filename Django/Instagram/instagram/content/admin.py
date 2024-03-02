@@ -29,8 +29,8 @@ class TagInline(GenericTabularInline):
 @register(PostModel)
 class PostAdmin(admin.ModelAdmin):
     list_display = (
-        'user', 'allow_comments', 'show_like', 'close_friends_only', 'get_comment_count',
-        'caption', 'created_date', 'updated_date', 'get_like_count'
+        'id', 'user', 'allow_comments', 'show_like', 'close_friends_only',
+        'caption', 'created_date', 'updated_date', 'get_like_count', 'get_comment_count',
     )
     list_display_links = ('user', )
     list_filter = ('user', )
@@ -58,8 +58,8 @@ class MentionAdmin(admin.ModelAdmin):
 @register(StoryModel)
 class StoryAdmin(admin.ModelAdmin):
     list_display = (
-        'user', 'allow_comments', 'close_friends_only', 'get_comment_count',
-        'created_date', 'updated_date', 'get_like_count',
+        'id', 'user', 'allow_comments', 'close_friends_only',
+        'created_date', 'updated_date', 'get_like_count', 'get_comment_count',
     )
     list_display_links = ('user', )
     list_filter = ('user', 'close_friends_only', 'allow_comments')

@@ -49,10 +49,10 @@ class UserRelationAdmin(admin.ModelAdmin):
 
 @register(CloseFriendModel)
 class CloseFriendAdmin(admin.ModelAdmin):
-    list_display = ('user_relation', 'close_friend', )
-    list_filter = ('user_relation', 'close_friend', )
-    search_fields = ('user_relation', 'close_friend', )
-    list_display_links = ('user_relation', 'close_friend', )
+    list_display = ('close_friend', )
+    list_filter = ('close_friend', )
+    search_fields = ('close_friend', )
+    list_display_links = ('close_friend', )
     date_hierarchy = 'created_date'
 
     actions = (

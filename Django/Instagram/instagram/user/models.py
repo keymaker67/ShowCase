@@ -71,16 +71,12 @@ class UserRelationModel(MyBaseModel):
         unique_together = ('user', 'related_with', 'relation_type')
 
     def __str__(self):
-        return f'{self.relate} added as {self.relation_type}'
+        return f'{self.related_with} added as {self.relation_type}'
 
 
 class CloseFriendModel(MyBaseModel):
-    user_relation = models.ForeignKey(
-        UserRelationModel, on_delete=models.PROTECT,
-        verbose_name='User relation', related_name='close_friends'
-    )  # Make relation to login user
     close_friend = models.ForeignKey(
-        User, on_delete=models.PROTECT, verbose_name='Close friend',
+        UserRelationModel, on_delete=models.PROTECT, verbose_name='Close friend',
         related_name='close_friends_relations'
     )
 
@@ -89,4 +85,4 @@ class CloseFriendModel(MyBaseModel):
         verbose_name_plural = 'Close friend'
 
     def __str__(self):
-        return str(self.user)
+        return str(self.close_friend)
