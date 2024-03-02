@@ -1,18 +1,22 @@
 from rest_framework.serializers import ModelSerializer
 
 from .models import CommentModel, LikeModel
+from content.fields import GenericRelatedField
 
 
 # Create serializer
-class CommentSerializer(ModelSerializer):
-    class Meta:
-        model = CommentModel
-        fields = ('user', 'post', 'story', 'comment')
-
-
 class LikeSerializer(ModelSerializer):
-    comment = CommentSerializer(read_only=True)
+    content_object = GenericRelatedField()
 
     class Meta:
         model = LikeModel
-        fields = ('user', 'post', 'story', 'comment')
+        fields = ('user', 'content_object', 'object_id', 'content_type', )
+
+
+class CommentSerializer(ModelSerializer):
+    content_object = GenericRelatedField()
+    comment = LikeSerializer(many=True)  # Assuming 'media' is a related field
+
+    class Meta:
+        model = CommentModel
+        fields = ('user', 'content_object', 'object_id', 'content_type', 'comment')

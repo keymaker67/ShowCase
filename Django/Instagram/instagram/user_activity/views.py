@@ -16,12 +16,12 @@ from content.views import MyBaseViewSet
 class CommentViewSet(MyBaseViewSet):
     serializer_class = CommentSerializer
     model = CommentModel
-    filterset_fields = ('user', 'post', 'story', 'comment')
-    search_fields = ('user', 'post', 'story', 'comment')
+    filterset_fields = ('user', 'object_id', 'content_type', )
+    search_fields = ('user', 'object_id', 'content_type', )
 
 
 class LikeViewSet(MyBaseViewSet):
     serializer_class = LikeSerializer
     model = LikeModel
-    filterset_fields = ('user', 'post', 'story', 'comment')
-    search_fields = ('user', 'post', 'story', 'comment')
+    filterset_fields = ('user', 'object_id', 'content_type', )
+    search_fields = ('user', 'object_id', 'content_type', )

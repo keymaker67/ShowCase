@@ -16,5 +16,5 @@ from content.views import MyBaseViewSet
 class TagViewSet(MyBaseViewSet):
     serializer_class = TagSerializer
     model = TagModel
-    filterset_fields = ('title', 'post', 'story', )
-    search_fields = ('title', 'post', 'story', )
+    filterset_fields = ('title', 'object_id', 'content_type', )
+    search_fields = ('title', 'object_id', 'content_type', )

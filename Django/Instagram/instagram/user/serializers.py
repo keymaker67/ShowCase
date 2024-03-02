@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth import get_user_model
 
-from .models import UserProfile
+from .models import UserProfileModel, UserRelationModel, CloseFriendModel
 
 User = get_user_model()
 
@@ -10,13 +10,32 @@ User = get_user_model()
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = (
+            'username', 'first_name', 'last_name', 'created_date', 'is_active'
+        )
 
 
 class UserProfileSerializer(ModelSerializer):
     user = UserSerializer(read_only=True)
 
     class Meta:
-        model = UserProfile
+        model = UserProfileModel
         fields = ('user', 'public', 'profile_picture', 'bio', 'location')
+
+
+class UserRelationSerializer(ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = UserRelationModel
+        fields = ('user', 'related_with', 'relation_type')
+
+
+class CloseFriendSerializer(ModelSerializer):
+    user_relation = UserRelationSerializer(read_only=True)
+    close_friend = UserSerializer(read_only=True)
+
+    class Meta:
+        model = CloseFriendModel
+        fields = ('user_relate', 'close_friend')
 

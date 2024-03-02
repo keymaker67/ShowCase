@@ -10,8 +10,12 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Import Models and Serializers
 from .forms import UserProfileForm
-from .models import UserProfile
-from .serializers import UserProfileSerializer
+from .models import (
+    UserProfileModel, CloseFriendModel, UserRelationModel
+)
+from .serializers import (
+    UserProfileSerializer, UserRelationSerializer, CloseFriendSerializer
+)
 
 # Import MyBaseViewSet
 from content.views import MyBaseViewSet
@@ -55,6 +59,20 @@ def logout_view(request):
 # Create ViewSets
 class UserProfileViewSet(MyBaseViewSet):
     serializer_class = UserProfileSerializer
-    model = UserProfile
+    model = UserProfileModel
     filterset_filters = ('user', 'public', 'bio', 'location')
     search_filters = ('user', 'public', 'bio', 'location')
+
+
+class UserRelationViewSet(MyBaseViewSet):
+    serializer_class = UserRelationSerializer
+    model = UserRelationModel
+    filterset_filters = ('user', 'related_with', 'relation_type')
+    search_filters = ('user', 'related_with', 'relation_type')
+
+
+class CloseFriendViewSet(MyBaseViewSet):
+    serializer_class = CloseFriendSerializer
+    model = CloseFriendModel
+    filterset_filters = ('user_relate', 'close_friend')
+    search_filters = ('user_relate', 'close_friend')

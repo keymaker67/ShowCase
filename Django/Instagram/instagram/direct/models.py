@@ -10,13 +10,13 @@ User = get_user_model()
 # Create Direct message model
 class DirectMessageModel(MyBaseModel):
     text_message = models.TextField(blank=True, verbose_name='Text message')
-    sending_user = models.ForeignKey(
+    sender = models.ForeignKey(
         User, blank=False, null=False, on_delete=models.PROTECT,
-        verbose_name='Sending user', related_name='direct_messages'
+        verbose_name='Sender', related_name='sender_direct_messages'
     )   # Relate it to a sending user
-    receiving_user = models.ForeignKey(
+    receiver = models.ForeignKey(
         User, blank=False, null=False, on_delete=models.PROTECT,
-        verbose_name='Receiving user', related_name='direct_messages'
+        verbose_name='Receiver', related_name='receiver_direct_messages'
     )   # Relate it to a sending user
     media_file = models.FileField(
         upload_to='message/%Y/%m', blank=True, verbose_name='Media File')
@@ -30,11 +30,11 @@ class DirectMessageModel(MyBaseModel):
         verbose_name_plural = 'Direct messages'
 
     def __str__(self):
-        return f'{self.user} sent a message with id {self.id} '
+        return f'{self.sender} sent a message with id {self.id} '
 
     def clean(self):
         # Check for having at least one type of messages
-        if self.message is None and self.media_file is None:
+        if self.text_message is None and self.media_file is None:
             raise ValidationError(
                 'A direct message should contain either a text message or a media file.'
             )

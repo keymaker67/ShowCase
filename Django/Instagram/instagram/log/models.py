@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from rest_framework.exceptions import ValidationError
 
-from user.models import MyBaseModel, UserProfile
+from user.models import MyBaseModel, UserProfileModel
 from content.models import PostModel, StoryModel
 
 User = get_user_model()
@@ -13,7 +13,7 @@ class PreviewModel(MyBaseModel):
     user = models.ForeignKey(User, null=False, blank=False,
                              on_delete=models.PROTECT, verbose_name='User')
     profile = models.ForeignKey(
-        UserProfile, null=True, blank=True,
+        UserProfileModel, null=True, blank=True,
         verbose_name='Profile', related_name='previews',
         on_delete=models.PROTECT
     )

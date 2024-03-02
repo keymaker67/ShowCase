@@ -9,11 +9,12 @@ from .models import DirectMessageModel
 @register(DirectMessageModel)
 class DirectMessageAdmin(admin.ModelAdmin):
     list_display = (
-        'text_message', 'user', 'media_type', 'display_media_link'
+        'text_message', 'media_type', 'display_media_link',
+        'sender', 'receiver',
     )
-    list_display_links = ('sending_user', 'receiving_user', )
-    list_filter = ('sending_user', 'receiving_user', 'media_type')
-    search_fields = ('text_message', 'sending_user__username', 'receiving_user__username', )
+    list_display_links = ('sender', 'receiver', )
+    list_filter = ('sender', 'receiver', 'media_type')
+    search_fields = ('text_message', 'sender__username', 'receiver__username', )
     date_hierarchy = 'created_date'
 
     def display_media_link(self, obj):

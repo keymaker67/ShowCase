@@ -1,20 +1,27 @@
 from django.contrib import admin
 from django.contrib.admin.decorators import register
 from django.template.loader import render_to_string
+from django.contrib.contenttypes.admin import GenericTabularInline
 
 from .models import (
     PostModel, MediaModel, StoryModel, MentionModel
 )
+from tag.models import TagModel
 
 
 # Create inline classes
-class MediaInline(admin.TabularInline):
+class MediaInline(GenericTabularInline):
     model = MediaModel
     extra = 1
 
 
-class MentionInline(admin.TabularInline):
+class MentionInline(GenericTabularInline):
     model = MentionModel
+    extra = 1
+
+
+class TagInline(GenericTabularInline):
+    model = TagModel
     extra = 1
 
 
@@ -22,7 +29,8 @@ class MentionInline(admin.TabularInline):
 @register(PostModel)
 class PostAdmin(admin.ModelAdmin):
     list_display = (
-        'user', 'allow_comments', 'show_like', 'close_friends_only', 'caption',
+        'user', 'allow_comments', 'show_like', 'close_friends_only', 'get_comment_count',
+        'caption', 'created_date', 'updated_date', 'get_like_count'
     )
     list_display_links = ('user', )
     list_filter = ('user', )
@@ -35,35 +43,41 @@ class PostAdmin(admin.ModelAdmin):
         })
     )
 
-    inlines = [MediaInline, MentionInline]
+    inlines = [MediaInline, MentionInline, TagInline, ]
 
 
 @register(MentionModel)
 class MentionAdmin(admin.ModelAdmin):
-    list_display = ('post', 'story', 'user', )
-    list_display_links = ('post', 'story', 'user', )
-    list_filter = ('post', 'story', 'user', )
-    search_fields = ('user__username', 'post__caption', )
+    list_display = ('id', 'user', 'created_date', 'object_id', 'content_type', 'content_object')
+    list_display_links = ('user', 'id', 'object_id', 'content_type', 'content_object')
+    list_filter = ('user', 'created_date')
+    search_fields = ('user__username', 'post__caption', 'object_id', 'content_type', 'content_object')
     date_hierarchy = 'created_date'
 
 
 @register(StoryModel)
 class StoryAdmin(admin.ModelAdmin):
-    list_display = ('user', 'allow_comments', 'close_friends_only', 'created_date', 'updated_date')
+    list_display = (
+        'user', 'allow_comments', 'close_friends_only', 'get_comment_count',
+        'created_date', 'updated_date', 'get_like_count',
+    )
     list_display_links = ('user', )
     list_filter = ('user', 'close_friends_only', 'allow_comments')
     search_fields = ('user__username', 'post__caption', )
     date_hierarchy = 'created_date'
 
-    inlines = [MediaInline, MentionInline, ]
+    inlines = [MediaInline, MentionInline, TagInline, ]
 
 
 @register(MediaModel)
 class MediaAdmin(admin.ModelAdmin):
-    list_display = ('post', 'story', 'display_media_link', 'media_type', )
-    list_display_links = ('post', )
-    list_filter = ('post', 'media_type', )
-    search_fields = ('media_type', 'post__caption', )
+    list_display = (
+        'id', 'display_media_link', 'media_type', 'created_date',
+        'object_id', 'content_type', 'content_object'
+    )
+    list_display_links = ('media_type', 'object_id', 'content_type', 'content_object')
+    list_filter = ('created_date', 'media_type', )
+    search_fields = ('media_type', )
     date_hierarchy = 'created_date'
 
     def display_media_link(self, obj):

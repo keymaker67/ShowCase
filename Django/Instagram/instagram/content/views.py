@@ -32,17 +32,18 @@ class MyBaseViewSet(ModelViewSet):
         return self.model.objects.filter(is_active=True).order_by('-pk')
 
 
-# Create ViewSets for serializers
 class MediaViewSet(MyBaseViewSet):
     serializer_class = MediaSerializer
     model = MediaModel
-    search_fields = ('content_type', 'object_id', 'content_object', 'story', )
+    filterset_fields = ('media_type', 'object_id', 'content_type', )
+    search_fields = ('media_type', 'object_id', 'content_type')
 
 
+# Create ViewSets for serializers
 class MentionViewSet(MyBaseViewSet):
     serializer_class = MentionSerializer
     model = MentionModel
-    filterset_fields = ('user', )
+    filterset_fields = ('user', 'object_id', 'content_type', )
     search_fields = ('content_type', 'object_id', 'content_object', 'user', )
 
 

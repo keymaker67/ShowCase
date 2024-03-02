@@ -1,12 +1,12 @@
 from django import forms
 
-from .models import UserProfile
+from .models import UserProfileModel
 
 
 # Create a form for accessing user profile data
 class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
+        model = UserProfileModel
         exclude = ['user', ]
 
     user = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={

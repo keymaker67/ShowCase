@@ -7,9 +7,15 @@ from .models import LikeModel, CommentModel
 # Register and Create admin classes
 @register(CommentModel)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('comment', 'user', 'post', 'story', )
-    list_display_links = ('comment', 'user', 'post', 'story', )
-    list_filter = ('user', )
-    search_fields = ('comment', 'user', 'post', 'story', )
+    list_display = ('comment', 'created_date', 'updated_date', 'get_like_count')
+    list_display_links = ('comment', )
+    list_filter = ('created_date', )
+    search_fields = ('comment', )
+    date_hierarchy = 'created_date'
+
+
+@register(LikeModel)
+class LikeAdmin(admin.ModelAdmin):
+    list_display = ('created_date', 'updated_date', )
     date_hierarchy = 'created_date'
 
