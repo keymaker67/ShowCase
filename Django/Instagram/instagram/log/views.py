@@ -16,8 +16,8 @@ from content.views import MyBaseViewSet
 class PreviewViewSet(MyBaseViewSet):
     serializer_class = PreviewSerializer
     model = PreviewModel
-    filterset_filters = ('user', 'profile', 'story', 'post')
-    search_filters = ('user', 'profile', 'story', 'post')
+    filterset_filters = ('user', )
+    search_filters = ('user', )
 
     def creat_perform(self, serializer):
         serializer.save(user=self.request.user)

@@ -31,7 +31,7 @@ class PostSerializer(serializers.ModelSerializer):
     mention = MentionSerializer(many=True)  # Assuming 'mention' is a related field
     tag = TagSerializer(many=True)  # Assuming 'tag' is a related field
     like = LikeSerializer(many=True)  # Assuming 'like' is a related field
-    Comment = CommentSerializer(many=True)  # Assuming 'Comment' is a related field
+    comment = CommentSerializer(many=True)  # Assuming 'Comment' is a related field
 
     class Meta:
         model = PostModel
@@ -46,7 +46,7 @@ class StorySerializer(serializers.ModelSerializer):
     mention = MentionSerializer(many=True)  # Assuming 'mention' is a related field
     tag = TagSerializer(many=True)  # Assuming 'tag' is a related field
     like = LikeSerializer(many=True)  # Assuming 'like' is a related field
-    Comment = CommentSerializer(many=True)  # Assuming 'Comment' is a related field
+    comment = CommentSerializer(many=True)  # Assuming 'Comment' is a related field
 
     class Meta:
         model = StoryModel

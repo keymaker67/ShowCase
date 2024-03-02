@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 
 from django.contrib.auth import get_user_model
 
@@ -35,6 +36,7 @@ class UserProfileModel(MyBaseModel):
                            verbose_name='Bio')
     location = models.CharField(max_length=100, null=True, blank=True,
                                 verbose_name='Location')
+    log = GenericRelation("log.PreviewModel", related_name='profile')
 
     class Meta:
         verbose_name = 'User Profile'

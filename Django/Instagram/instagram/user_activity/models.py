@@ -17,7 +17,10 @@ class CommentModel(MyBaseModel):
                              related_name='comments', blank=False, null=False)
     content_type = models.ForeignKey(
         ContentType, on_delete=models.PROTECT, related_name='comment', blank=False, null=False,
-        limit_choices_to={'content': ['post', 'story']}, verbose_name='Content type',
+        limit_choices_to=(
+            models.Q(app_label='content', model='postmodel') |
+            models.Q(app_label='content', model='storymodel')
+        ), verbose_name='Content type',
     )
     object_id = models.PositiveSmallIntegerField(verbose_name='Object ID')
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -39,8 +42,11 @@ class LikeModel(MyBaseModel):
                              related_name='likes', blank=False, null=False)
     content_type = models.ForeignKey(
         ContentType, on_delete=models.PROTECT, related_name='like', blank=False, null=False,
-        limit_choices_to={'content': ['post', 'story'], 'user_activity': ['comment']},
-        verbose_name='Content type',
+        limit_choices_to=(
+            models.Q(app_label='content', model='postmodel') |
+            models.Q(app_label='content', model='storymodel') |
+            models.Q(app_label='user_activity', model='commentmodel')
+        ), verbose_name='Content type',
     )
     object_id = models.PositiveSmallIntegerField(verbose_name='Object ID')
     content_object = GenericForeignKey('content_type', 'object_id')

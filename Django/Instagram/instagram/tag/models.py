@@ -16,7 +16,10 @@ class TagModel(MyBaseModel):
                              null=False, blank=False, verbose_name='Title')
     content_type = models.ForeignKey(
         ContentType, on_delete=models.PROTECT, related_name='tag', blank=False, null=False,
-        limit_choices_to={'content': ['post', 'story']},
+        limit_choices_to=(
+            models.Q(app_label='content', model='postmodel') |
+            models.Q(app_label='content', model='storymodel')
+        )
     )
     object_id = models.PositiveSmallIntegerField(verbose_name='Object ID', blank=False, null=False)
     content_object = GenericForeignKey('content_type', 'object_id')

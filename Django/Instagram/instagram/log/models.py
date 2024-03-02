@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from rest_framework.exceptions import ValidationError
 
 from user.models import MyBaseModel, UserProfileModel
@@ -12,30 +14,20 @@ User = get_user_model()
 class PreviewModel(MyBaseModel):
     user = models.ForeignKey(User, null=False, blank=False,
                              on_delete=models.PROTECT, verbose_name='User')
-    profile = models.ForeignKey(
-        UserProfileModel, null=True, blank=True,
-        verbose_name='Profile', related_name='previews',
-        on_delete=models.PROTECT
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.PROTECT, related_name='previews', blank=False, null=False,
+        limit_choices_to=(
+            models.Q(app_label='content', model='postmodel') |
+            models.Q(app_label='content', model='storymodel') |
+            models.Q(app_label='user', model='userprofilemodel')
+        )
     )
-    story = models.ForeignKey(
-        StoryModel, null=True, blank=True,
-        verbose_name='Story', related_name='previews',
-        on_delete=models.PROTECT
-    )
-    post = models.ForeignKey(
-        PostModel, null=True, blank=True,
-        verbose_name='Post', related_name='previews',
-        on_delete=models.PROTECT
-    )
-
-    def clean(self):
-        # At least one option should be provided
-        if self.post_id is None and self.story_id is None and self.profile_id is None:
-            raise ValidationError('At least one option from post, story, or profile should be provided.')
+    object_id = models.PositiveSmallIntegerField(verbose_name='Object ID', blank=False, null=False)
+    content_object = GenericForeignKey('content_type', 'object_id')
 
     class Meta:
         verbose_name = 'Preview'
         verbose_name_plural = 'Previews'
 
     def __str__(self):
-        return f'{self.user} previewed something'
+        return f'{self.user} previewed {self.content_type}'

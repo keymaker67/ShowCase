@@ -26,6 +26,7 @@ class PostModel(MyBaseModel):
     tag = GenericRelation("tag.TagModel", related_name='post')
     comment = GenericRelation("user_activity.CommentModel", related_name='post')
     like = GenericRelation("user_activity.LikeModel", related_name='post')
+    log = GenericRelation("log.PreviewModel", related_name='post')
 
     def get_like_count(self):
         return self.like.count()
@@ -67,6 +68,7 @@ class StoryModel(MyBaseModel):
     tag = GenericRelation("tag.TagModel", related_name='story')
     comment = GenericRelation("user_activity.CommentModel", related_name='story')
     like = GenericRelation("user_activity.likeModel", related_name='story')
+    log = GenericRelation("log.PreviewModel", related_name='story')
 
     def get_like_count(self):
         return self.like.count()
@@ -95,7 +97,10 @@ class StoryModel(MyBaseModel):
 class MentionModel(MyBaseModel):
     content_type = models.ForeignKey(
         ContentType, on_delete=models.PROTECT, related_name='mention', blank=False, null=False,
-        limit_choices_to={'model__in': ['post', 'story']}, verbose_name='Content type',
+        limit_choices_to=(
+                models.Q(app_label='content', model='postmodel') |
+                models.Q(app_label='content', model='storymodel')
+        ), verbose_name='Content type',
     )
     object_id = models.PositiveSmallIntegerField(verbose_name='Object ID')
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -115,7 +120,10 @@ class MentionModel(MyBaseModel):
 class MediaModel(MyBaseModel):
     content_type = models.ForeignKey(
         ContentType, on_delete=models.PROTECT, related_name='media', blank=False, null=False,
-        limit_choices_to={'model__in': ['post', 'story']},
+        limit_choices_to=(
+                models.Q(app_label='content', model='postmodel') |
+                models.Q(app_label='content', model='storymodel')
+        ),
     )
     object_id = models.PositiveSmallIntegerField(verbose_name='Object ID', blank=False, null=False)
     content_object = GenericForeignKey('content_type', 'object_id')
