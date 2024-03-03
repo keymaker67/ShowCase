@@ -30,7 +30,7 @@ class TagInline(GenericTabularInline):
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'user', 'allow_comments', 'show_like', 'close_friends_only',
-        'caption', 'created_date', 'updated_date', 'get_like_count', 'get_comment_count',
+        'caption', 'created_date', 'updated_date', 'like_count', 'comment_count',
     )
     list_display_links = ('user', )
     list_filter = ('user', )
@@ -59,7 +59,7 @@ class MentionAdmin(admin.ModelAdmin):
 class StoryAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'user', 'allow_comments', 'close_friends_only',
-        'created_date', 'updated_date', 'get_like_count', 'get_comment_count',
+        'created_date', 'updated_date', 'like_count', 'comment_count',
     )
     list_display_links = ('user', )
     list_filter = ('user', 'close_friends_only', 'allow_comments')

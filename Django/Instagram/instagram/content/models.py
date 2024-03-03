@@ -28,24 +28,29 @@ class PostModel(MyBaseModel):
     like = GenericRelation("user_activity.LikeModel", related_name='post')
     log = GenericRelation("log.PreviewModel", related_name='post')
 
-    def get_like_count(self):
+    @property
+    def like_count(self):
         return self.like.count()
 
-    def get_comment_count(self):
+    @property
+    def comment_count(self):
         return self.comment.count()
 
-    def get_tag_count(self):
+    @property
+    def tag_count(self):
         return self.tag.count()
 
-    def get_mention_count(self):
+    @property
+    def mention_count(self):
         return self.mention.count()
 
-    def get_media_count(self):
+    @property
+    def media_count(self):
         return self.media.count()
 
     @property
-    def like_counts(self):
-        return self.post_likes.count()
+    def log_count(self):
+        return self.log.count()
 
     class Meta:
         verbose_name = 'Post'
@@ -70,19 +75,24 @@ class StoryModel(MyBaseModel):
     like = GenericRelation("user_activity.likeModel", related_name='story')
     log = GenericRelation("log.PreviewModel", related_name='story')
 
-    def get_like_count(self):
+    @property
+    def like_count(self):
         return self.like.count()
 
-    def get_comment_count(self):
+    @property
+    def comment_count(self):
         return self.comment.count()
 
-    def get_tag_count(self):
+    @property
+    def tag_count(self):
         return self.tag.count()
 
-    def get_mention_count(self):
+    @property
+    def mention_count(self):
         return self.mention.count()
 
-    def get_media_count(self):
+    @property
+    def media_count(self):
         return self.media.count()
 
     class Meta:

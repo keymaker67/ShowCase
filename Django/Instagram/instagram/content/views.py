@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model
@@ -17,7 +17,15 @@ from .serializers import (
 )
 from .forms import PostForm, StoryForm
 from tag.models import TagModel
-from .utils.helpers import get_followers, post_story_form_validator
+from .utils.helpers import (
+    get_followers,
+    post_story_form_validator,
+    get_following_users,
+    get_public_users,
+    add_posts_stories,
+)
+from user_activity.forms import CommentForm
+from user_activity.models import CommentModel
 
 User = get_user_model()
 
@@ -75,9 +83,77 @@ class StoryViewSet(MyBaseViewSet):
         serializer.save(user=self.request.user)
 
 
+def post_detail_view(request, pk):
+    post = get_object_or_404(PostModel, id=pk)
+    if post:
+        post_user = User.objects.filter(username=post.user).first()
+        public_users = get_public_users()
+        medias = post.media.all()
+        comments = post.comment.all().order_by('-created_date')
+        if post_user in public_users:
+            return render(
+                request,
+                'main/post_detail.html',
+                {'post': post, 'medias': medias, 'comments': comments}
+            )
+        if request.user.is_authenticated:
+            following_users = get_following_users(request.user)
+            if post_user in following_users:
+                if request.method == 'POST':
+                    form = CommentForm(request.POST)
+                    if form.is_valid():
+                        content_type = ContentType.objects.get_for_model(post)
+                        object_id = post.id
+                        comment_instance = CommentModel.objects.create(
+                            content_type=content_type,
+                            object_id=object_id,
+                            user=request.user,
+                            comment=request.POST['comment']
+                        )
+                        return redirect(request.path)
+                    else:
+                        messages = 'Form is not valid.'
+                        return redirect(request.path)
+                return render(
+                    request,
+                    'main/post_detail.html',
+                    {'post': post, 'medias': medias, 'comments': comments}
+                )
+            else:
+                messages = 'You are not permitted to see this post since you are not a follower.'
+                return redirect(request.path)
+        else:
+            messages = 'You are not permitted to see this post since you are not a follower.'
+            return redirect(request.path)
+    else:
+        messages = 'There is no such a post.'
+        return redirect('home', {'messages': messages})
+
+
 # Create main view
 def post_view(request):
-    return render(request, 'main/index.html')
+    posts = []
+    stories = []
+
+    if request.user.is_authenticated:
+        current_user = request.user
+        following_users = get_following_users(current_user)
+
+        if following_users:
+            add_posts_stories(following_users, posts, stories)
+
+    public_users = get_public_users()
+    if public_users:
+        add_posts_stories(public_users, posts, stories)
+
+    if len(posts) == 0:
+        message = 'No posts to show'
+        return render(request, 'main/index.html', {'post_massage': message})
+    if len(posts) == 0:
+        message = 'No stories to show'
+        return render(request, 'main/index.html', {'story_massage': message})
+
+    return render(request, 'main/index.html', {'posts': posts, 'stories': stories})
 
 
 def rdf_view(request):

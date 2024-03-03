@@ -58,7 +58,7 @@ class UserRelationModel(MyBaseModel):
         super().save(*args, **kwargs)
 
         # Define cases for different relation types
-        match self.relation_type :
+        match self.relation_type:
             # If the relation type is 'follower', add a 'following' relation for the related user
             case 'follower':
                 UserRelationModel.objects.get_or_create(

@@ -2,9 +2,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, redirect
 
-from user.models import UserRelationModel
+from user.models import UserRelationModel, UserProfileModel
 from content.models import (
-    MediaModel, MentionModel,
+    MediaModel, MentionModel, PostModel, StoryModel
 )
 from tag.models import TagModel
 
@@ -14,10 +14,44 @@ User = get_user_model()
 
 def get_followers(current_user):
     # Get the IDs of users who are following the current user
-    follower_ids = UserRelationModel.objects.filter(related_with=current_user, relation_type='follower').values_list('user_id', flat=True)
+    follower_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='follower').
+                    values_list('user_id', flat=True))
     # Get the users who are following the current user
     followers = User.objects.filter(id__in=follower_ids)
     return followers
+
+
+def get_following_users(current_user):
+    # Get the IDs of users who are following the current user
+    followings_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='following').
+                      values_list('user_id', flat=True))
+    # Get the users who are following the current user
+    followings = User.objects.filter(id__in=followings_ids)
+    return followings
+
+
+def get_public_users():
+    # Get the IDs of users who are following the current user
+    public_user_ids = (UserProfileModel.objects.filter(public=True).values_list('user_id', flat=True))
+    # Get the users who are following the current user
+    public_users = User.objects.filter(id__in=public_user_ids)
+    return public_users
+
+
+def add_posts_stories(preferred_users, posts, stories):
+    for users in preferred_users:
+        user_posts = PostModel.objects.filter(user=users).order_by('-created_date')
+        user_stories = StoryModel.objects.filter(user=users).order_by('-created_date')
+        for post in user_posts:
+            # Get all media associated with the current post
+            media = post.media.all()
+            comment = post.comment.all()
+            posts.append({'content': post, 'media': media, 'comment': comment})
+        for story in user_stories:
+            # Get all media associated with the current post
+            media = story.media.all()
+            comment = story.comment.all()
+            stories.append({'content': story, 'media': media, 'comment': comment})
 
 
 def post_story_form_validator(request, form):

@@ -26,6 +26,7 @@ class CommentModel(MyBaseModel):
     content_object = GenericForeignKey('content_type', 'object_id')
     like = GenericRelation("LikeModel", related_name='comment')
 
+    @property
     def get_like_count(self):
         return self.like.count()
 
