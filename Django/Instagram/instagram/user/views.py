@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Import Models and Serializers
-from .forms import UserProfileForm
+from .forms import UserProfileForm, UserEditForm
 from .models import (
     UserProfileModel, CloseFriendModel, UserRelationModel
 )
@@ -58,7 +58,22 @@ def logout_view(request):
 
 @login_required
 def user_profile_view(request):
-    return render(request, 'user_profile.html')
+    current_user_profile, created = UserProfileModel.objects.get_or_create(user=request.user)
+    current_user = request.user
+    if request.method == 'POST':
+        user_form = UserEditForm(request.POST, instance=request.user)
+        if current_user_profile:
+            profile_form = UserProfileForm(request.POST, request.FILES, instance=current_user_profile)
+        else:
+            profile_form = UserProfileForm(request.POST, request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('profile')
+    else:
+        profile_form = UserProfileForm(instance=current_user_profile)
+        user_form = current_user
+    return render(request, 'user_profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 # Create ViewSets

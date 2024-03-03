@@ -13,32 +13,34 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
-                        Dropdown
+                        Actions
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="/add_post/">Add Post</a></li>
+                        <li><a class="dropdown-item" href="/add_story/">Add Story</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a href="/user/profile" class="dropdown-item">Profile</a></li>
                     </ul>
                 </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="btn btn-outline-success">Logout</a>
-                <a href="/user/profile" class="btn btn-warning mx-2">Profile</a>
-                <a href="{% url 'drf' %}" class="btn btn-info mx-2">DRF</a>
+
+                <li><a href="{% url 'logout' %}" class="btn btn-warning mx-2">Logout</a></li>
+                <li><a href="{% url 'drf' %}" class="btn btn-outline-success">DRF</a></li>
                 {% else %}
-                <a href="{% url 'signup' %}" class="btn btn-warning mx-2">Signup</a>
-                <a href="{% url 'login' %}" class="btn btn-outline-success">Login</a>
+                <li><a href="{% url 'signup' %}" class="btn btn-warning mx-2">Signup</a></li>
+                <li><a href="{% url 'login' %}" class="btn btn-outline-success">Login</a></li>
                 {% endif %}
             </ul>
         </div>

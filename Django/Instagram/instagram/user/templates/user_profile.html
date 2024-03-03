@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 {% block title %}
 User Profile
@@ -7,27 +6,81 @@ User Profile
 
 {% block content %}
 <div class="col-md-6 offset-md-3">
-    <form method="POST" action="">
-        {% csrf_token %}
-        {% if form.errors %}
-            <div class="alert alert-warning
+    <div class="card mt-5">
+        <div class="card-header">User Profile</div>
+        <div class="card-body">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form.errors %}
+                <div class="alert alert-warning
             alert-dismissible fade show" role="alert">
-                Your Form Has Errors
-                {% for fields in form %}
+                    Your Form Has Errors
+                    {% for fields in form %}
                     {% if field.errors %}
-                        {{ field.errors }}
+                    {{ field.errors }}
                     {% endif %}
-                {% endfor %}
-                <button type="button" class="btn-close"
-                data-bs-dismiss="alert" aria-label="Close">
-                </button>
-            </div>
-        {% endif %}
-        {{ form | crispy }}
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
-    <form action=".">
-        {{ form.as_p }}
-    </form>
+                    {% endfor %}
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>
+                {% endif %}
+                <div class="row g-2">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="username" name="username"
+                                       placeholder="Username" value="{{ user_form.username }}">
+                                <label for="username">Username</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="email" name="email"
+                                       placeholder="name@example.com" value="{{ user_form.email }}">
+                                <label for="email">Email address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="first_name" name="first_name"
+                                       placeholder="First Name" value="{{ user_form.first_name }}">
+                                <label for="first_name">First Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="last_name" name="last_name"
+                                       placeholder="Last Name" value="{{ user_form.last_name }}">
+                                <label for="last_name">Last Name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="location" name="location"
+                                       placeholder="Location" value="{{ profile_form.location.value }}">
+                                <label for="location">Location</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="public" name="public"
+                                        aria-label="public or private area">
+                                    <option value="False" selected>Private</option>
+                                    <option value="True">Public</option>
+                                </select>
+                                <label for="public">Do you want to be public or private</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                        <textarea type="" class="form-control" id="bio" name="bio" placeholder="Biography"
+                                  style="height: 130px">{{ profile_form.bio.value }}</textarea>
+                                <label for="bio">Biography</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="profile_picture">Upload</label>
+                    <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Update</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

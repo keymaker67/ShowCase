@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Post
+{% endblock %}
+
+{% block content %}
+<div class="col-md-6 offset-md-3">
+    <div class="card mt-5">
+        <div class="card-header">Add Post</div>
+        <div class="card-body">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <ul>
+                        {% for field_name, field_errors in form.errors.items %}
+                        {% for error in field_errors %}
+                        <li>{{ field_name }}: {{ error }}</li>
+                        {% endfor %}
+                        {% endfor %}
+                    </ul>
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>
+                {% endif %}
+                <div class="form-floating">
+                    <div class="form-floating mb-3">
+                        <input type="hidden" class="form-control" id="user" name="user"
+                               placeholder="user" value="{{ request.user.id }}">
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="caption" name="caption"
+                               placeholder="Caption">
+                        <label for="caption">Caption</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select name="mention" id="mention" class="form-control">
+                            <option value="">Select a follower...</option>
+                                {% for follower in followers %}
+                                    <option value="{{ follower.username }}">{{ follower.username }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="mention">Mention</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="tag" name="tag"
+                               placeholder="Tag">
+                        <label for="tag">Tag</label>
+                    </div>
+                    <div class="form-check form-switch0">
+                        <input type="radio" class="btn-check" name="media_type" id="option1" autocomplete="off" checked
+                               value="image">
+                        <label class="btn btn-secondary" for="option1">Image</label>
+                        <input type="radio" class="btn-check" name="media_type" id="option2" autocomplete="off"
+                               value="video">
+                        <label class="btn btn-secondary" for="option2">Video</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch"
+                               id="allow_comments" name="allow_comments" checked>
+                        <label class="form-check-label" for="allow_comments">Allow comments</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch"
+                               id="show_like" name="show_like" checked>
+                        <label class="form-check-label" for="show_like">Show like</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch"
+                               id="close_friends_only" name="close_friends_only">
+                        <label class="form-check-label" for="close_friends_only">Close friends only</label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="media_files">media</label>
+                        <input type="file" class="form-control" id="media_files" name="media_files" multiple>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Creat Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -3,6 +3,8 @@ from rest_framework import routers
 
 from .views import (
     post_view,
+    add_post_view,
+    add_story_view,
     rdf_view,
     MentionViewSet,
     MediaViewSet,
@@ -21,5 +23,7 @@ content_router.register('story', StoryViewSet, basename='story')
 urlpatterns = [
     path('', post_view, name="home"),
     path('drf/', rdf_view, name="drf"),
+    path('add_post/', add_post_view, name="add_post"),
+    path('add_story/', add_story_view, name="add_story"),
     path('', include(content_router.urls, )),
 ]
