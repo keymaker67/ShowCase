@@ -1,11 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 
 from user.models import UserRelationModel, UserProfileModel
 from content.models import (
     MediaModel, MentionModel, PostModel, StoryModel
 )
+from user_activity.forms import CommentForm
+from user_activity.models import CommentModel
 from tag.models import TagModel
 
 # Create an instance of user model
@@ -64,7 +67,7 @@ def post_story_form_validator(request, form):
         media_file_paths = request.FILES.getlist('media_files')
         for media_file_path in media_file_paths:
             # Create a new media object
-            media_instance = MediaModel.objects.create(
+            MediaModel.objects.create(
                 content_type=content_type,
                 object_id=object_id,
                 media_file=media_file_path,
@@ -91,3 +94,67 @@ def post_story_form_validator(request, form):
         return redirect('home')
     else:
         print(form.errors)
+
+
+def content_view(request, pk, model, template):
+    content = get_object_or_404(model, id=pk)
+    if content:
+        content_user = User.objects.filter(username=content.user).first()
+        public_users = get_public_users()
+        medias = content.media.all()
+        comments = content.comment.all().order_by('-created_date')
+        context = {'content': content, 'medias': medias, 'comments': comments}
+        if content_user in public_users:
+            if request.user.is_authenticated:
+                if request.method == 'POST':
+                    input_comment(request, content)
+                    return return_context(request, template, context)
+                else:
+                    return return_context(request, template, context)
+            else:
+                if request.method == 'POST':
+                    messages.error = (request, 'You need to login first!')
+                    return return_context(request, template, context)
+                else:
+                    return return_context(request, template, context)
+        else:
+            if request.user.is_authenticated:
+                following_users = get_following_users(request.user)
+                if content_user in following_users:
+                    if request.method == 'POST':
+                        input_comment(request, content)
+                        return return_context(request, template, context)
+                    else:
+                        return return_context(request, template, context)
+                else:
+                    messages.error = (request, '''
+                        You are not permitted to see this content since you are not a follower.
+                    ''')
+                    return redirect(request.path)
+            else:
+                messages.error = (request, 'You need to login first!')
+                return redirect(request.path)
+    else:
+        messages.error = (request, 'There is no such a content.')
+        return redirect('home', {'messages': messages})
+
+
+def input_comment(request, content):
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        content_type = ContentType.objects.get_for_model(content)
+        object_id = content.id
+        CommentModel.objects.create(
+            content_type=content_type,
+            object_id=object_id,
+            user=request.user,
+            comment=request.POST['comment']
+        )
+        return redirect(request.path)
+    else:
+        messages.error = (request, 'Form is not valid.')
+        return redirect(request.path)
+
+
+def return_context(request, template, context):
+    return render(request, template, context)

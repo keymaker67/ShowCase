@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated
@@ -23,6 +24,7 @@ from .utils.helpers import (
     get_following_users,
     get_public_users,
     add_posts_stories,
+    content_view,
 )
 from user_activity.forms import CommentForm
 from user_activity.models import CommentModel
@@ -84,50 +86,13 @@ class StoryViewSet(MyBaseViewSet):
 
 
 def post_detail_view(request, pk):
-    post = get_object_or_404(PostModel, id=pk)
-    if post:
-        post_user = User.objects.filter(username=post.user).first()
-        public_users = get_public_users()
-        medias = post.media.all()
-        comments = post.comment.all().order_by('-created_date')
-        if post_user in public_users:
-            return render(
-                request,
-                'main/post_detail.html',
-                {'post': post, 'medias': medias, 'comments': comments}
-            )
-        if request.user.is_authenticated:
-            following_users = get_following_users(request.user)
-            if post_user in following_users:
-                if request.method == 'POST':
-                    form = CommentForm(request.POST)
-                    if form.is_valid():
-                        content_type = ContentType.objects.get_for_model(post)
-                        object_id = post.id
-                        comment_instance = CommentModel.objects.create(
-                            content_type=content_type,
-                            object_id=object_id,
-                            user=request.user,
-                            comment=request.POST['comment']
-                        )
-                        return redirect(request.path)
-                    else:
-                        messages = 'Form is not valid.'
-                        return redirect(request.path)
-                return render(
-                    request,
-                    'main/post_detail.html',
-                    {'post': post, 'medias': medias, 'comments': comments}
-                )
-            else:
-                messages = 'You are not permitted to see this post since you are not a follower.'
-                return redirect(request.path)
-        else:
-            messages = 'You are not permitted to see this post since you are not a follower.'
-            return redirect(request.path)
-    else:
-        messages = 'There is no such a post.'
-        return redirect('home', {'messages': messages})
+    template = 'main/post_detail.html'
+    return content_view(request, pk, PostModel, template)
+
+
+def story_detail_view(request, pk):
+    template = 'main/story_detail.html'
+    return content_view(request, pk, StoryModel, template)
 
 
 # Create main view
