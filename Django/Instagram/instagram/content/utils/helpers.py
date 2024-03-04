@@ -42,19 +42,21 @@ def get_public_users():
 
 
 def add_posts_stories(preferred_users, posts, stories):
-    for users in preferred_users:
-        user_posts = PostModel.objects.filter(user=users).order_by('-created_date')
-        user_stories = StoryModel.objects.filter(user=users).order_by('-created_date')
+    for user in preferred_users:
+        user_posts = PostModel.objects.filter(user=user).order_by('-created_date')
+        user_stories = StoryModel.objects.filter(user=user).order_by('-created_date')
         for post in user_posts:
             # Get all media associated with the current post
+            profile_picture = UserProfileModel.objects.filter(user=post.user).first().profile_picture
             media = post.media.all()
             comment = post.comment.all()
-            posts.append({'content': post, 'media': media, 'comment': comment})
+            posts.append({'content': post, 'media': media, 'comment': comment, 'profile_picture': profile_picture})
         for story in user_stories:
             # Get all media associated with the current post
+            profile_picture = UserProfileModel.objects.filter(user=story.user).first().profile_picture
             media = story.media.all()
             comment = story.comment.all()
-            stories.append({'content': story, 'media': media, 'comment': comment})
+            stories.append({'content': story, 'media': media, 'comment': comment, 'profile_picture': profile_picture})
 
 
 def post_story_form_validator(request, form):
@@ -100,10 +102,15 @@ def content_view(request, pk, model, template):
     content = get_object_or_404(model, id=pk)
     if content:
         content_user = User.objects.filter(username=content.user).first()
+        profile_picture = UserProfileModel.objects.filter(user=content.user).first().profile_picture
         public_users = get_public_users()
         medias = content.media.all()
         comments = content.comment.all().order_by('-created_date')
-        context = {'content': content, 'medias': medias, 'comments': comments}
+        context = {
+            'content': content,
+            'medias': medias,
+            'comments': comments,
+            'profile_picture': profile_picture}
         if content_user in public_users:
             if request.user.is_authenticated:
                 if request.method == 'POST':

@@ -95,6 +95,10 @@ class StoryModel(MyBaseModel):
     def media_count(self):
         return self.media.count()
 
+    @property
+    def log_count(self):
+        return self.log.count()
+
     class Meta:
         verbose_name = 'Story'
         verbose_name_plural = 'stories'

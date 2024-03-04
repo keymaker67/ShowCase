@@ -12,7 +12,27 @@ InstaClone
             {% for post in posts %}
             <div class="card w-50 my-3">
                 <div class="card-body">
-                    <h5 class="card-title">{{ post.content.user }}</h5>
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0" style="height: 7vh">
+                            <div class="col-md-4 h-100">
+                                {% if post.profile_picture %}
+                                <img src="{{ post.profile_picture.url }}" class="img-fluid rounded-start h-100"
+                                     alt="Profile Picture">
+                                {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                     class="bi bi-person-bounding-box h-100" viewBox="0 0 16 16">
+                                    <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                </svg>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8 h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ post.content.user }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="PostCarousel{{ post.content.id }}" class="carousel slide my-4">
                         <div class="carousel-inner">
                             {% for media in post.media %}
@@ -82,8 +102,28 @@ InstaClone
             {% if stories %}
             {% for story in stories %}
             <div class="card my-3">
+                <div class="card">
+                    <div class="row g-0" style="height: 6vh">
+                        <div class="col-md-4 h-100">
+                            {% if story.profile_picture %}
+                            <img src="{{ story.profile_picture.url }}" class="img-fluid rounded-start h-100"
+                                 alt="Profile Picture">
+                            {% else %}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                 class="bi bi-person-bounding-box h-100" viewBox="0 0 16 16">
+                                <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            </svg>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body h-100">
+                                <h5 class="card-title">{{ story.content.user }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ story.content.user }}</h5>
                     <div id="StoryCarousel{{ story.content.id }}" class="carousel slide my-4">
                         <div class="carousel-inner">
                             {% for media in story.media %}

@@ -17,7 +17,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
-                        Actions
+                        Hello {{ user }}
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/add_post/">Add Post</a></li>
@@ -29,9 +29,6 @@
                     </ul>
                 </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                </li>
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 {% if user.is_authenticated %}

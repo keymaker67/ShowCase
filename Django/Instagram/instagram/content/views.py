@@ -97,8 +97,8 @@ def story_detail_view(request, pk):
 
 # Create main view
 def post_view(request):
-    posts = []
-    stories = []
+    posts = list()
+    stories = list()
 
     if request.user.is_authenticated:
         current_user = request.user
@@ -111,16 +111,10 @@ def post_view(request):
     if public_users:
         add_posts_stories(public_users, posts, stories)
 
-    if len(posts) == 0:
-        message = 'No posts to show'
-        return render(request, 'main/index.html', {'post_massage': message})
-    if len(posts) == 0:
-        message = 'No stories to show'
-        return render(request, 'main/index.html', {'story_massage': message})
-
     return render(request, 'main/index.html', {'posts': posts, 'stories': stories})
 
 
+@login_required()
 def rdf_view(request):
     return render(request, 'main/drf.html')
 

@@ -5,82 +5,154 @@ User Profile
 {% endblock %}
 
 {% block content %}
-<div class="col-md-6 offset-md-3">
-    <div class="card mt-5">
-        <div class="card-header">User Profile</div>
-        <div class="card-body">
-            <form method="POST" action="" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% if form.errors %}
-                <div class="alert alert-warning
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 bg-light p-3 d-flex" style="height: 85vh; overflow-y: auto;">
+            <div class="card w-100 bg-dark" data-bs-theme="dark">
+                <div class="card-header">User Profile</div>
+                <div class="card-body">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if form.errors %}
+                        <div class="alert alert-warning
             alert-dismissible fade show" role="alert">
-                    Your Form Has Errors
-                    {% for fields in form %}
-                    {% if field.errors %}
-                    {{ field.errors }}
-                    {% endif %}
-                    {% endfor %}
-                    <button type="button" class="btn-close"
-                            data-bs-dismiss="alert" aria-label="Close">
-                    </button>
-                </div>
-                {% endif %}
-                <div class="row g-2">
-                    <div class="col-md">
-                        <div class="form-floating">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="username" name="username"
-                                       placeholder="Username" value="{{ user_form.username }}">
-                                <label for="username">Username</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="email" name="email"
-                                       placeholder="name@example.com" value="{{ user_form.email }}">
-                                <label for="email">Email address</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="first_name" name="first_name"
-                                       placeholder="First Name" value="{{ user_form.first_name }}">
-                                <label for="first_name">First Name</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="last_name" name="last_name"
-                                       placeholder="Last Name" value="{{ user_form.last_name }}">
-                                <label for="last_name">Last Name</label>
-                            </div>
+                            Your Form Has Errors
+                            {% for fields in form %}
+                            {% if field.errors %}
+                            {{ field.errors }}
+                            {% endif %}
+                            {% endfor %}
+                            <button type="button" class="btn-close"
+                                    data-bs-dismiss="alert" aria-label="Close">
+                            </button>
                         </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-floating">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="location" name="location"
-                                       placeholder="Location" value="{{ profile_form.location.value }}">
-                                <label for="location">Location</label>
+                        {% endif %}
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="username" name="username"
+                                               placeholder="Username" value="{{ user_form.username }}">
+                                        <label for="username">Username</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                               placeholder="name@example.com" value="{{ user_form.email }}">
+                                        <label for="email">Email address</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="first_name" name="first_name"
+                                               placeholder="First Name" value="{{ user_form.first_name }}">
+                                        <label for="first_name">First Name</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="last_name" name="last_name"
+                                               placeholder="Last Name" value="{{ user_form.last_name }}">
+                                        <label for="last_name">Last Name</label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-floating mb-3">
-                                <select class="form-select" id="public" name="public"
-                                        aria-label="public or private area">
-                                    <option value="False" selected>Private</option>
-                                    <option value="True">Public</option>
-                                </select>
-                                <label for="public">Do you want to be public or private</label>
-                            </div>
-                            <div class="form-floating mb-3">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="location" name="location"
+                                               placeholder="Location" value="{{ profile_form.location.value }}">
+                                        <label for="location">Location</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="public" name="public"
+                                                aria-label="public or private area">
+                                            <option value="False" selected>Private</option>
+                                            <option value="True">Public</option>
+                                        </select>
+                                        <label for="public">Do you want to be public or private</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
                         <textarea type="" class="form-control" id="bio" name="bio" placeholder="Biography"
                                   style="height: 130px">{{ profile_form.bio.value }}</textarea>
-                                <label for="bio">Biography</label>
+                                        <label for="bio">Biography</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="profile_picture">Upload</label>
+                            <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 bg-warning-subtle p-3 d-flex flex-column" style="height: 85vh; overflow: auto;">
+            <div class="mb-3 flex-fill p-2">
+                <h4 class="position-relative">Followers
+                    <span class="position-absolute end-0 badge rounded-pill bg-danger">
+                        {{ followers_count }}
+                        <span class="visually-hidden">Followers count</span>
+                    </span>
+                </h4>
+                {% if followers %}
+                {% for follower in followers %}
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            {% if follower.profile_picture.url %}
+                            <img src="{{ follower.profile_picture.url }}" class="img-fluid rounded-start h-100"
+                                 alt="Profile Picture">
+                            {% else %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+                                <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            </svg>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ follower }}</h5>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="profile_picture">Upload</label>
-                    <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="mb-3 flex-fill p-2">
+                <h4 class="position-relative">Following
+                    <span class="position-absolute end-0 badge rounded-pill bg-danger">
+                        {{ following_users_count }}
+                        <span class="visually-hidden">Following count</span>
+                    </span>
+                </h4>
+                {% if followings %}
+                {% for following in followings %}
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            {% if following.profile_picture.url %}
+                            <img src="{{ following.profile_picture.url }}" class="img-fluid rounded-start h-100"
+                                 alt="Profile Picture">
+                            {% else %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+                                <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            </svg>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ following }}</h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Update</button>
-            </form>
+                {% endfor %}
+                {% endif %}
+            </div>
         </div>
     </div>
-
 </div>
+
 {% endblock %}
