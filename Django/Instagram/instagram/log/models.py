@@ -28,6 +28,7 @@ class PreviewModel(MyBaseModel):
     class Meta:
         verbose_name = 'Preview'
         verbose_name_plural = 'Previews'
+        unique_together = ('content_type', 'object_id', 'user')
 
     def __str__(self):
         return f'{self.user} previewed {self.content_type}'

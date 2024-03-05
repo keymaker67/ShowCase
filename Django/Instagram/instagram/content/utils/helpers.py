@@ -10,6 +10,7 @@ from content.models import (
 from user_activity.forms import CommentForm
 from user_activity.models import CommentModel
 from tag.models import TagModel
+from log.models import PreviewModel
 
 # Create an instance of user model
 User = get_user_model()
@@ -113,26 +114,28 @@ def content_view(request, pk, model, template):
             'profile_picture': profile_picture}
         if content_user in public_users:
             if request.user.is_authenticated:
+                trigger_preview(request, content)
                 if request.method == 'POST':
                     input_comment(request, content)
-                    return return_context(request, template, context)
+                    return render(request, template, context)
                 else:
-                    return return_context(request, template, context)
+                    return render(request, template, context)
             else:
                 if request.method == 'POST':
                     messages.error = (request, 'You need to login first!')
-                    return return_context(request, template, context)
+                    return render(request, template, context)
                 else:
-                    return return_context(request, template, context)
+                    return render(request, template, context)
         else:
             if request.user.is_authenticated:
+                trigger_preview(request, content)
                 following_users = get_following_users(request.user)
                 if content_user in following_users:
                     if request.method == 'POST':
                         input_comment(request, content)
-                        return return_context(request, template, context)
+                        return render(request, template, context)
                     else:
-                        return return_context(request, template, context)
+                        return render(request, template, context)
                 else:
                     messages.error = (request, '''
                         You are not permitted to see this content since you are not a follower.
@@ -163,5 +166,11 @@ def input_comment(request, content):
         return redirect(request.path)
 
 
-def return_context(request, template, context):
-    return render(request, template, context)
+def trigger_preview(request, content):
+    content_type = ContentType.objects.get_for_model(content)
+    object_id = content.id
+    PreviewModel.objects.get_or_create(
+        content_type=content_type,
+        object_id=object_id,
+        user=request.user,
+    )

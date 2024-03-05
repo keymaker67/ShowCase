@@ -19,7 +19,8 @@ from .serializers import (
 
 # Import MyBaseViewSet
 from content.views import MyBaseViewSet
-from content.utils.helpers import get_following_users, get_followers
+from content.utils.helpers import get_following_users, get_followers, trigger_preview
+from content.models import PostModel, StoryModel
 
 User = get_user_model()
 
@@ -90,6 +91,35 @@ def user_profile_view(request):
             'followers_count': len(followers),
             'followings': followings,
             'followers': followers,
+        })
+
+
+@login_required
+def user_content_view(request, pk):
+    content = list()
+    current_user = User.objects.filter(id=pk).first()
+    current_user_profile = UserProfileModel.objects.filter(user=current_user).first()
+    trigger_preview(request, current_user_profile)
+    posts = PostModel.objects.filter(user=current_user).order_by('-created_date')
+    for post in posts:
+        medias = post.media.all()
+        content.append({'post': post, 'medias': medias})
+    following_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='following').
+                     values_list('user_id', flat=True))
+    followings = UserProfileModel.objects.filter(id__in=following_ids)
+    follower_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='follower').
+                    values_list('user_id', flat=True))
+    followers = UserProfileModel.objects.filter(id__in=follower_ids)
+    print(dir(followers.first()))
+    return render(
+        request,
+        'user_content.html',
+        {
+            'following_users_count': len(followings),
+            'followers_count': len(followers),
+            'followings': followings,
+            'followers': followers,
+            'content': content,
         })
 
 

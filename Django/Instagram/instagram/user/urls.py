@@ -10,6 +10,7 @@ from .views import (
     UserProfileViewSet,
     UserRelationViewSet,
     CloseFriendViewSet,
+    user_content_view,
 )
 
 # Create Default router
@@ -23,5 +24,6 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('profile/', user_profile_view, name='profile'),
+    path('user_content/<int:pk>', user_content_view, name='user_content'),
     path('', include(user_profile_router.urls, )),
 ]

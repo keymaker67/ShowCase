@@ -20,12 +20,13 @@
                         Hello {{ user }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/add_post/">Add Post</a></li>
-                        <li><a class="dropdown-item" href="/add_story/">Add Story</a></li>
+                        <li><a class="dropdown-item" href="{% url 'add_post' %}">Add Post</a></li>
+                        <li><a class="dropdown-item" href="{% url 'add_story' %}">Add Story</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a href="/user/profile" class="dropdown-item">Profile</a></li>
+                        <li><a href="{% url 'profile' %}" class="dropdown-item">Profile</a></li>
+                        <li><a href="{% url 'user_content' user.id %}" class="dropdown-item">Contents</a></li>
                     </ul>
                 </li>
                 {% endif %}
