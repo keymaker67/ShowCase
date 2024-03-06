@@ -103,12 +103,12 @@ def post_view(request):
 
     if request.user.is_authenticated:
         current_user = request.user
-        following_users = get_following_users(current_user)
+        following_users = get_following_users(current_user)[0]
 
         if following_users:
             add_posts_stories(following_users, posts, stories)
 
-    public_users = get_public_users()
+    public_users = get_public_users()[0]
     if public_users:
         add_posts_stories(public_users, posts, stories)
 
@@ -116,7 +116,7 @@ def post_view(request):
 
 
 @login_required()
-def rdf_view(request):
+def drf_view(request):
     return render(request, 'main/drf.html')
 
 

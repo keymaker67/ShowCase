@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import register
+from django.contrib.auth import get_user_model
 
 from .models import (
     UserProfileModel, UserRelationModel, CloseFriendModel
@@ -18,10 +19,10 @@ def deactivate_selected_items(self, request, queryset):
 
 @register(UserProfileModel)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'public', 'location')
+    list_display = ('id', 'user', 'public', 'location')
     list_filter = ('public', 'location')
     search_fields = ('user', 'location', 'user__username', 'user__first_name', 'user__last_name')
-    list_display_links = ('user', )
+    list_display_links = ('id', 'user', )
     date_hierarchy = 'created_date'
 
     actions = (
@@ -32,13 +33,13 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @register(UserRelationModel)
 class UserRelationAdmin(admin.ModelAdmin):
-    list_display = ('user', 'related_with', 'relation_type', )
-    list_filter = ('user', 'related_with', 'relation_type', )
+    list_display = ('id', 'user', 'related_with', 'relation_type', )
+    list_filter = ('id', 'user', 'related_with', 'relation_type', )
     search_fields = (
         'user', 'user__username', 'user__first_name', 'user__last_name',
         'related_with', 'relation_type',
     )
-    list_display_links = ('user', 'related_with', 'relation_type', )
+    list_display_links = ('id', 'user', 'related_with', 'relation_type', )
     date_hierarchy = 'created_date'
 
     actions = (

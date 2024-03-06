@@ -6,6 +6,8 @@ from .views import (
     signup_view,
     login_view,
     logout_view,
+    follow_request_view,
+    handle_follow_request_view,
     user_profile_view,
     UserProfileViewSet,
     UserRelationViewSet,
@@ -25,5 +27,7 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('profile/', user_profile_view, name='profile'),
     path('user_content/<int:pk>', user_content_view, name='user_content'),
+    path('follow_request/<int:pk>', follow_request_view, name='follow_request'),
+    path('handle_follow_request/<int:pk>', handle_follow_request_view, name='handle_follow_request'),
     path('', include(user_profile_router.urls, )),
 ]

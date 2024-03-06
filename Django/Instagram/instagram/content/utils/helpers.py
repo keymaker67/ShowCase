@@ -18,34 +18,55 @@ User = get_user_model()
 
 def get_followers(current_user):
     # Get the IDs of users who are following the current user
-    follower_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='follower').
-                    values_list('user_id', flat=True))
+    follower_ids = (
+        UserRelationModel.objects.filter(
+            user=current_user,
+            relation_type='follower',
+            is_active=True).
+        values_list('related_with_id', flat=True))
     # Get the users who are following the current user
-    followers = User.objects.filter(id__in=follower_ids)
-    return followers
+    followers = UserProfileModel.objects.filter(user_id__in=follower_ids)
+    return followers, follower_ids
 
 
 def get_following_users(current_user):
     # Get the IDs of users who are following the current user
-    followings_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='following').
-                      values_list('user_id', flat=True))
+    following_ids = (
+        UserRelationModel.objects.filter(
+            related_with=current_user,
+            relation_type='follower',
+            is_active=True).
+        values_list('user_id', flat=True))
     # Get the users who are following the current user
-    followings = User.objects.filter(id__in=followings_ids)
-    return followings
+    followings = UserProfileModel.objects.filter(user_id__in=following_ids)
+    return followings, following_ids
+
+
+def get_follow_requests(current_user):
+    # Get the IDs of users who want to follow the current user
+    follow_request_ids = (
+        UserRelationModel.objects.filter(
+            user=current_user,
+            relation_type='follower',
+            is_active=False).
+        values_list('related_with_id', flat=True))
+    # Get the users who want to follow the current user
+    follow_requests = UserProfileModel.objects.filter(user_id__in=follow_request_ids)
+    return follow_requests, follow_request_ids
 
 
 def get_public_users():
-    # Get the IDs of users who are following the current user
+    # Get the IDs of users who are public
     public_user_ids = (UserProfileModel.objects.filter(public=True).values_list('user_id', flat=True))
-    # Get the users who are following the current user
-    public_users = User.objects.filter(id__in=public_user_ids)
-    return public_users
+    # Get the users who are public
+    public_users = UserProfileModel.objects.filter(id__in=public_user_ids)
+    return public_users, public_user_ids
 
 
 def add_posts_stories(preferred_users, posts, stories):
     for user in preferred_users:
-        user_posts = PostModel.objects.filter(user=user).order_by('-created_date')
-        user_stories = StoryModel.objects.filter(user=user).order_by('-created_date')
+        user_posts = PostModel.objects.filter(user=user.user).order_by('-created_date')
+        user_stories = StoryModel.objects.filter(user=user.user).order_by('-created_date')
         for post in user_posts:
             # Get all media associated with the current post
             profile_picture = UserProfileModel.objects.filter(user=post.user).first().profile_picture
@@ -100,10 +121,10 @@ def post_story_form_validator(request, form):
 
 
 def content_view(request, pk, model, template):
-    content = get_object_or_404(model, id=pk)
+    content = model.objects.filter(id=pk).first()
     if content:
-        content_user = User.objects.filter(username=content.user).first()
-        profile_picture = UserProfileModel.objects.filter(user=content.user).first().profile_picture
+        content_user = UserProfileModel.objects.filter(user_id=content.user_id)
+        profile_picture = content_user.first().profile_picture
         public_users = get_public_users()
         medias = content.media.all()
         comments = content.comment.all().order_by('-created_date')
@@ -129,8 +150,9 @@ def content_view(request, pk, model, template):
         else:
             if request.user.is_authenticated:
                 trigger_preview(request, content)
-                following_users = get_following_users(request.user)
-                if content_user in following_users:
+                following_users = get_following_users(request.user)[1]
+                content_user_id = content_user.first().user_id
+                if content_user_id in following_users or content_user_id == request.user:
                     if request.method == 'POST':
                         input_comment(request, content)
                         return render(request, template, context)
@@ -140,13 +162,12 @@ def content_view(request, pk, model, template):
                     messages.error = (request, '''
                         You are not permitted to see this content since you are not a follower.
                     ''')
-                    return redirect(request.path)
+                    print(1)
+                    return redirect(request.META.get('HTTP_REFERER'))
             else:
-                messages.error = (request, 'You need to login first!')
-                return redirect(request.path)
+                return redirect(request.META.get('HTTP_REFERER'))
     else:
-        messages.error = (request, 'There is no such a content.')
-        return redirect('home', {'messages': messages})
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 def input_comment(request, content):

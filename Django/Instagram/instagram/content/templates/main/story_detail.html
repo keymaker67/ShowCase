@@ -12,27 +12,29 @@ Story Detail
             <div class="container">
                 <div class="card" style="height: 70vh">
                     <div class="card-body">
-                        <div class="card mb-3" style="max-width: 540px;">
-                            <div class="row g-0" style="height: 7vh">
-                                <div class="col-md-4 h-100">
-                                    {% if profile_picture %}
-                                    <img src="{{ profile_picture.url }}" class="img-fluid rounded-start h-100"
-                                         alt="Profile Picture">
-                                    {% else %}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                         class="bi bi-person-bounding-box h-100" viewBox="0 0 16 16">
-                                        <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
-                                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                    </svg>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-8 h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ content.user }}</h5>
+                        <a href="{% url 'user_content' content.user_id %}" style="text-decoration: none">
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0" style="height: 7vh">
+                                    <div class="col-md-4 h-100">
+                                        {% if profile_picture %}
+                                        <img src="{{ profile_picture.url }}" class="img-fluid rounded-start h-100"
+                                             alt="Profile Picture">
+                                        {% else %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                             class="bi bi-person-bounding-box h-100" viewBox="0 0 16 16">
+                                            <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
+                                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                        </svg>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-8 h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ content.user }}</h5>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                         <div id="PostCarousel{{ content.id }}" class="carousel slide my-4">
                             <div class="carousel-inner">
                                 {% for media in medias %}
@@ -103,7 +105,10 @@ Story Detail
                                 <div class="col">
                                     <blockquote class="blockquote mb-0">
                                         <p>{{ comment.comment }}</p>
-                                        <footer class="blockquote-footer">{{ comment.user }}</footer>
+                                        <a href="{% url 'user_content' comment.user_id %}"
+                                           style="text-decoration: none">
+                                            <footer class="blockquote-footer">{{ comment.user }}</footer>
+                                        </a>
                                     </blockquote>
                                 </div>
                                 <div class="col">

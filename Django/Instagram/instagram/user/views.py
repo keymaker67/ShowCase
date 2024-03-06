@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -10,16 +10,22 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Import Models and Serializers
 from .forms import UserProfileForm, UserEditForm
-from .models import (
-    UserProfileModel, CloseFriendModel, UserRelationModel
-)
+from .models import (UserProfileModel, CloseFriendModel, UserRelationModel)
 from .serializers import (
-    UserProfileSerializer, UserRelationSerializer, CloseFriendSerializer
+    UserProfileSerializer,
+    UserRelationSerializer,
+    CloseFriendSerializer
 )
 
 # Import MyBaseViewSet
 from content.views import MyBaseViewSet
-from content.utils.helpers import get_following_users, get_followers, trigger_preview
+from content.utils.helpers import (
+    get_following_users,
+    get_followers,
+    trigger_preview,
+    get_follow_requests,
+    get_public_users,
+)
 from content.models import PostModel, StoryModel
 
 User = get_user_model()
@@ -31,6 +37,7 @@ def signup_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            UserProfileModel.objects.create(user=request.user)
             return redirect('home')
         else:
             messages.info(request, 'something went wrong, please try again')
@@ -62,12 +69,13 @@ def logout_view(request):
 def user_profile_view(request):
     current_user_profile, created = UserProfileModel.objects.get_or_create(user=request.user)
     current_user = request.user
-    following_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='following').
-                     values_list('user_id', flat=True))
-    followings = UserProfileModel.objects.filter(id__in=following_ids)
-    follower_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='follower').
-                    values_list('user_id', flat=True))
-    followers = UserProfileModel.objects.filter(id__in=follower_ids)
+
+    follow_requests = get_follow_requests(current_user)[0]
+
+    followers = get_followers(current_user)[0]
+
+    followings = get_following_users(current_user)[0]
+
     if request.method == 'POST':
         user_form = UserEditForm(request.POST, instance=request.user)
         if current_user_profile:
@@ -87,10 +95,12 @@ def user_profile_view(request):
         {
             'user_form': user_form,
             'profile_form': profile_form,
+            'follow_requests_count': len(follow_requests),
             'following_users_count': len(followings),
             'followers_count': len(followers),
             'followings': followings,
             'followers': followers,
+            'follow_requests': follow_requests,
         })
 
 
@@ -99,28 +109,71 @@ def user_content_view(request, pk):
     content = list()
     current_user = User.objects.filter(id=pk).first()
     current_user_profile = UserProfileModel.objects.filter(user=current_user).first()
-    trigger_preview(request, current_user_profile)
-    posts = PostModel.objects.filter(user=current_user).order_by('-created_date')
-    for post in posts:
-        medias = post.media.all()
-        content.append({'post': post, 'medias': medias})
-    following_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='following').
-                     values_list('user_id', flat=True))
-    followings = UserProfileModel.objects.filter(id__in=following_ids)
-    follower_ids = (UserRelationModel.objects.filter(related_with=current_user, relation_type='follower').
-                    values_list('user_id', flat=True))
-    followers = UserProfileModel.objects.filter(id__in=follower_ids)
-    print(dir(followers.first()))
+    if current_user_profile:
+        trigger_preview(request, current_user_profile)
+
+    public_users, public_user_ids = get_public_users()
+
+    follow_requests, follow_request_ids = get_follow_requests(current_user)
+    requested = True if request.user.id in follow_request_ids else False
+
+    followers, follower_user_ids = get_followers(current_user)
+    already_follower = True if request.user.id in follower_user_ids else False
+
+    followings, following_user_ids = get_following_users(current_user)
+
+    if request.user.id == pk or request.user.id in follower_user_ids or pk in public_user_ids:
+        posts = PostModel.objects.filter(user=current_user).order_by('-created_date')
+        for post in posts:
+            medias = post.media.all()
+            content.append({'post': post, 'medias': medias})
+
     return render(
         request,
         'user_content.html',
         {
+            'follow_requests_count': len(follow_requests),
             'following_users_count': len(followings),
             'followers_count': len(followers),
             'followings': followings,
             'followers': followers,
+            'follow_requests': follow_requests,
             'content': content,
+            'current_user': current_user,
+            'requested': requested,
+            'already_follower': already_follower
         })
+
+
+@login_required
+def follow_request_view(request, pk):
+    requesting_user = User.objects.filter(id=pk).first()
+    UserRelationModel.objects.get_or_create(
+        user=requesting_user,
+        related_with=request.user,
+        relation_type='follower',
+        is_active=False
+    )
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def handle_follow_request_view(request, pk):
+    requesting_user = User.objects.filter(id=pk).first()
+    if request.method == 'POST':
+        follow_request = UserRelationModel.objects.get(
+            user=request.user,
+            related_with=requesting_user,
+            relation_type='follower'
+        )
+        action = request.POST.get('action')
+        if action == 'accept':
+            follow_request.is_active = True
+            follow_request.save()
+        if action == 'reject':
+            follow_request.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 # Create ViewSets

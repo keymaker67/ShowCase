@@ -33,7 +33,6 @@ class UserRelationSerializer(ModelSerializer):
 
 class CloseFriendSerializer(ModelSerializer):
     close_friend = UserRelationSerializer(read_only=True)
-    # close_friend = UserSerializer(read_only=True)
 
     class Meta:
         model = CloseFriendModel
