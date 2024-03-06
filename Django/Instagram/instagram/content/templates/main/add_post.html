@@ -38,8 +38,8 @@ Add Post
                     <div class="form-floating mb-3">
                         <select name="mention" id="mention" class="form-control">
                             <option value="">Select a follower...</option>
-                                {% for follower in followers %}
-                                    <option value="{{ follower.username }}">{{ follower.username }}</option>
+                            {% for follower in followers %}
+                            <option value="{{ follower.username }}">{{ follower }}</option>
                             {% endfor %}
                         </select>
                         <label for="mention">Mention</label>

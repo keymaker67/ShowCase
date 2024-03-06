@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Post Detail
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 bg-light p-3 d-flex align-items-center justify-content-center"
+             style="height: 85vh; overflow-y: auto;">
+        </div>
+        <div class="col-md bg-warning-subtle p-3 d-flex flex-column" style="height: 85vh; overflow: auto;">
+            <div class="card mt-2">
+                <div class="card-header">Send a Message</div>
+                <div class="card-body">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if form.errors %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <ul>
+                                {% for field_name, field_errors in form.errors.items %}
+                                {% for error in field_errors %}
+                                <li>{{ field_name }}: {{ error }}</li>
+                                {% endfor %}
+                                {% endfor %}
+                            </ul>
+                            <button type="button" class="btn-close"
+                                    data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                        </div>
+                        {% endif %}
+                        <div class="form-floating mb-3">
+                            <select name="mention" id="mention" class="form-control">
+                                <option value="">Select a user...</option>
+                                {% for user in user_list %}
+                                <option value="{{ follower.username }}">{{ user }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="mention">user</label>
+                        </div>
+                        <div class="form-floating">
+                            <div class="form-floating mb-3">
+                                <input type="hidden" class="form-control" id="user" name="user"
+                                       placeholder="user" value="{{ request.user.id }}">
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea type="test" class="form-control" id="comment" name="comment"
+                                          placeholder="Comment" style="height: 200px"></textarea>
+                                <label for="comment">Comment</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Put it</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
