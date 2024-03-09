@@ -10,4 +10,5 @@ class PreviewAdmin(admin.ModelAdmin):
     list_display = ('object_id', 'content_type', 'content_object', 'created_date', )
     list_display_links = ('object_id', 'content_type', 'content_object', 'created_date', )
     search_fields = ('object_id', 'content_type', 'content_object', 'created_date', )
+    list_filter = ('content_type', 'created_date', )
     date_hierarchy = 'created_date'

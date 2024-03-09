@@ -127,7 +127,6 @@ def add_post_view(request):
 
     # Create a list of followers
     followers = get_followers(current_user)[0]
-    print(followers)
 
     # Check for post method
     if request.method == 'POST':

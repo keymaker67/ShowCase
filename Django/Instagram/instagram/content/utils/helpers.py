@@ -125,7 +125,7 @@ def content_view(request, pk, model, template):
     if content:
         content_user = UserProfileModel.objects.filter(user_id=content.user_id)
         profile_picture = content_user.first().profile_picture
-        public_users = get_public_users()
+        public_users = get_public_users()[1]
         medias = content.media.all()
         comments = content.comment.all().order_by('-created_date')
         context = {
@@ -133,7 +133,8 @@ def content_view(request, pk, model, template):
             'medias': medias,
             'comments': comments,
             'profile_picture': profile_picture}
-        if content_user in public_users:
+        content_user_id = content_user.first().user_id
+        if content_user_id in public_users:
             if request.user.is_authenticated:
                 trigger_preview(request, content)
                 if request.method == 'POST':
@@ -162,7 +163,6 @@ def content_view(request, pk, model, template):
                     messages.error = (request, '''
                         You are not permitted to see this content since you are not a follower.
                     ''')
-                    print(1)
                     return redirect(request.META.get('HTTP_REFERER'))
             else:
                 return redirect(request.META.get('HTTP_REFERER'))
