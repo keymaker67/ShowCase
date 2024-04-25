@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <h1>this is my articles</h1>
+    {% if articles %}
+    {% for article in articles %}
+        <div class="card">
+            <div class="card-title p-2 row">
+                <div class="col">
+                <h3><a href="{% url 'blog:article' slug=article.slug %}" class="text-decoration-none text-black">{{ article.title }}</a></h3>
+                <h6>{{ article.created_date }}</h6>
+                </div>
+                <div class="col">
+                    <img src="{{ article.thumb.url }}" class="img-thumbnail" alt="">
+                </div>
+            </div>
+            <div class="card-body p-2">
+                <p>
+                    {{ article.snippet }} ...
+                    <a href="{% url 'blog:article' slug=article.slug %}"  class="text-decoration-none text-black">read more</a>
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+    {% endif %}
+{% endblock %}
+

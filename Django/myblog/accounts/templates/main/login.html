@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    login
+{% endblock %}
+
+{% block content %}
+<form action="/accounts/login/" method="POST" class="card p-2">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_username" class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" id="id_username" aria-describedby="username">
+    </div>
+    <div class="mb-3">
+        <label for="id_password" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" id="id_password" aria-describedby="password">
+    </div>
+    <input type="submit" value="Login" class="btn btn-outline-primary">
+</form>
+{% endblock %}
+
