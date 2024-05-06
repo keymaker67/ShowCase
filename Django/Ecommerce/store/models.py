@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from core.models import MyBaseModel
 
@@ -13,6 +14,9 @@ class CategoryModel(MyBaseModel):
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
+
+    def get_absolute_url(self):
+        return reverse('store:category_detail', args=[self.slug])
 
     def __str__(self):
         return self.name
@@ -33,6 +37,9 @@ class ProductModel(MyBaseModel):
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
         ordering = ('-created_at', )
+
+    def get_absolute_url(self):
+        return reverse('store:product_detail', args=[self.slug])
 
     def __str__(self):
         return self.title

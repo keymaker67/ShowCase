@@ -5,5 +5,28 @@ home
 {% endblock %}
 
 {% block content %}
-home
+<h3>products</h3>
+{% if products %}
+<ul>
+    {% for product in products %}
+    <li>
+<!--        <a href="{% url 'store:product_detail' product.slug %}">{{ product.title }}</a>-->
+        <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<h3>categories</h3>
+{% if categories %}
+<ul>
+{% for category in categories %}
+    <li>
+        <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% for category in categories %}
+{{ category.name }}
+{% endfor %}
+{% endif %}
 {% endblock %}
