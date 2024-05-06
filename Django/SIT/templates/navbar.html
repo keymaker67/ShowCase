@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg bg-primary p-2 text-dark bg-opacity-10">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home:home' %}">MyStore</a>
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex flex-row justify-content-between" id="navbarSupportedContent">
+            <div>
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active" href="{% url 'home:home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">about</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                           role="button">
+                            Account
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#" class="text-decoration-none px-2">Create Article</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div>
+                {% if user.is_authenticated %}
+                <form action="#" method="POST">
+                    {% csrf_token%}
+                    <button class="btn btn-info" type="submit">Logout</button>
+                </form>
+                {% else %}
+                <div class="d-flex flex-row border btn btn-info">
+                    <div>
+                        <a class="m-2 text-decoration-none" href="#">Login</a>
+                    </div>
+                    |
+                    <div>
+                        <a class="m-2 text-decoration-none" href="#">Signup</a>
+                    </div>
+
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
