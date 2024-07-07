@@ -6,7 +6,7 @@ from django.conf import settings
 from .local_settings import ADMIN_PATH
 urlpatterns = [
     path(f'{ADMIN_PATH}/', admin.site.urls),
-    path('store/', include('store.urls', 'store')),
+    path('', include('home.urls', 'home'))
 ]
 
 if settings.DEBUG:

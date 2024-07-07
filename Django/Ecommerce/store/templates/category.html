@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+home
+{% endblock %}
+
+{% block content %}
+{% if category %}
+<div class="card">
+  <div class="card-header">
+      {{ category.name }}
+  </div>
+  <div class="card-body">
+      {% if products %}
+      {% for product in products %}
+      <h5 class="card-title">{{ product.title }}</h5>
+      <p class="card-text">{{ product.price }}</p>
+      <p class="card-text">{{ product.creator }}</p>
+      <br/>
+      <hr>
+      {% endfor %}
+      {% endif %}
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
