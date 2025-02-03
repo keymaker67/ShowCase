@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Saat Oyunu{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 text-center" id="clockGame">
+        <!-- Introduction Paragraph -->
+        <h1 class="mb-4">Saat Oyunu</h1>
+        <p class="lead">
+            Haydi Türkçe saat okumayı öğrenmeye başlayalım!
+        </p>
+
+        <!-- Start Button -->
+        <button class="btn btn-primary mt-3" id="startButton">Başlayalım</button>
+
+        <!-- Game Area -->
+        <div id="gameArea" class="mt-2 p-4">
+            <!-- Game Space -->
+            <div class="col-md-6 game-space" id="clockGameSpace" style="display: none;">
+                <h4 class="text-center" id="clockGameTitle"></h4>
+                <div class=" analog-clock analog-clock-1">
+                    <div class="analog-hand analog-hour"></div>
+                    <div class="analog-hand analog-minute"></div>
+                    <div class="analog-hand analog-second"></div>
+                    <div class="analog-digital-clock"></div>
+                    <div class="analog-hour-1">1</div>
+                    <div class="analog-hour-2">2</div>
+                    <div class="analog-hour-3">3</div>
+                    <div class="analog-hour-4">4</div>
+                    <div class="analog-hour-5">5</div>
+                    <div class="analog-hour-6">6</div>
+                    <div class="analog-hour-7">7</div>
+                    <div class="analog-hour-8">8</div>
+                    <div class="analog-hour-9">9</div>
+                    <div class="analog-hour-10">10</div>
+                    <div class="analog-hour-11">11</div>
+                    <div class="analog-hour-12">12</div>
+                    <div class="analog-center-circle"></div>
+                </div>
+                <div class="turkish-clock">
+                    <button class="start-game btn btn-primary" type="submit" id="startGame">
+                        Yeni bir saat göster.
+                    </button>
+                    <button class="correct-answer btn btn-primary" type="submit" id="correctAnswer"
+                            style="display: none;">
+                        Doğru cevabı göster.
+                    </button>
+                    <br>
+                    <div class="answer" id="answer" style="display: none;"></div>
+                </div>
+                <div class="analog-clock analog-clock-2">
+                    <div class="analog-hand analog-hour"></div>
+                    <div class="analog-hand analog-minute"></div>
+                    <div class="analog-hand analog-second"></div>
+                    <div class="analog-digital-clock"></div>
+                    <div class="analog-hour-1">1</div>
+                    <div class="analog-hour-2">2</div>
+                    <div class="analog-hour-3">3</div>
+                    <div class="analog-hour-4">4</div>
+                    <div class="analog-hour-5">5</div>
+                    <div class="analog-hour-6">6</div>
+                    <div class="analog-hour-7">7</div>
+                    <div class="analog-hour-8">8</div>
+                    <div class="analog-hour-9">9</div>
+                    <div class="analog-hour-10">10</div>
+                    <div class="analog-hour-11">11</div>
+                    <div class="analog-hour-12">12</div>
+                    <div class="analog-center-circle"></div>
+                </div>
+            </div>
+
+            <!-- Game Type Selection -->
+            <div class="mt-4" id="gameTypeSection" style="display: none">
+                <h4>Oyun Türünü Seçin</h4>
+                <div class="d-flex justify-content-center flex-wrap">
+                    <button class="btn btn-outline-primary mx-2 game-type-btn" id="gameType1">Saat Kaç</button>
+                    <button class="btn btn-outline-primary mx-2 game-type-btn" id="gameType2">Saat Kaçta</button>
+                    <button class="btn btn-outline-primary mx-2 game-type-btn" id="gameType3">Saat Kaçtan Kaça Kadar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clock Container -->
+        <div id="clockContainer" class="position-fixed bottom-0 end-0 p-3">
+            <div id="digitalClock" class="bg-primary text-white p-2 rounded"></div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/clock_game/clock.js' %}"></script>
+    <script src="{% static 'js/clock_game/clock_game.js' %}"></script>
+{% endblock %}
