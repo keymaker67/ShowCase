@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Welcome to My Portfolio – Showcasing my work and projects.">
+    <title>{% block title %}My Portfolio{% endblock %}</title>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<input type="checkbox" id="active">
+<label for="active" class="first-click-me" id="firstClickMe"><i class="fas fa-bars">Menu</i></label>
+<!-- Nav Section -->
+<div class="nav-section">
+    {% include 'toolbar.html' %}
+</div>
+<!-- Main Section -->
+<div class="main-section">
+    {% if messages %}
+        <div>
+            <div>
+                {% for message in messages %}
+                    <div role="alert">
+                        {{ message }}
+                        <button type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+    <!-- Footer section -->
+    <div class="footer-start footer-section" id="footerStart">
+        <footer class="footer bg-dark text-light text-center py-3 mt-5">
+            <p class="mb-0">
+                &copy; 2025 My Portfolio. All rights reserved. |
+                <a href="/contact/" class="text-light text-decoration-none">Contact Us</a>
+            </p>
+        </footer>
+    </div>
+</div>
+</body>
+</html>
