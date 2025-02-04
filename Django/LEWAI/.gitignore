@@ -1,0 +1,42 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+
+# Django migrations
+**/migrations/
+
+# Compiled files
+*.so
+
+# Virtual environment
+venv_LEWAI/
+
+# IDE settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs and database
+*.log
+*.sqlite3
+
+# Static and media files
+staticfiles/
+media/
+
+# Pytest
+.pytest_cache/
+*.coverage
+htmlcov/
+.coverage.*
+
+# Ignore requirements if generated dynamically
+#!requirements.txt
+
+# Local settings
+local_settings.py
