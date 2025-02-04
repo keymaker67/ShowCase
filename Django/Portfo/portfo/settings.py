@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     # MY_APPS
     'users',
     'explore',
+    'ai',
 
     # OTHER_APPS
     'rest_framework',
