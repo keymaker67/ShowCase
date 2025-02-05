@@ -1,0 +1,14 @@
+{
+  "buildpacks": [
+    { "url": "heroku/python" }
+  ],
+  "environments": {
+    "production": {
+      "build": {
+        "scripts": {
+          "postdeploy": "cd main/Django/LEWAI && python manage.py migrate"
+        }
+      }
+    }
+  }
+}
